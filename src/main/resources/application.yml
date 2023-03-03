@@ -16,3 +16,8 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+
+eureka:
+  client:
+    service-url:
+      default-zone: ${EUREKA_HOST}
