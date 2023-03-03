@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  config:
+    import: .env[.properties]
+  application:
+    name: movie
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATASOURCE_HOST}:5432/movie
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
