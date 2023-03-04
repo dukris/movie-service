@@ -3,11 +3,13 @@ package com.solvd.movie.web.controller;
 import com.solvd.movie.domain.Movie;
 import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
+import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,8 +18,10 @@ import java.util.List;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
+    private static final String REVIEWS_URL = "http://review/api/v1/reviews";
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+    private final RestTemplate restTemplate;
 
     @GetMapping()
     public List<MovieDto> getAll() {
@@ -28,6 +32,12 @@ public class MovieController {
     @GetMapping("/exists/{movieId}")
     public Boolean isExists(@PathVariable Long movieId) {
         return movieService.isExists(movieId);
+    }
+
+    @GetMapping("/{movieId}/reviews")
+    public ReviewDto[] getReviews(@PathVariable Long movieId) {
+        return restTemplate.getForObject(REVIEWS_URL + "?movieId=" + movieId,
+                ReviewDto[].class);
     }
 
     @PostMapping()
