@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/movies")
-public class BookController {
+public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
@@ -23,6 +23,11 @@ public class BookController {
     public List<MovieDto> getAll() {
         List<Movie> movies = movieService.retrieveAll();
         return movieMapper.toDto(movies);
+    }
+
+    @GetMapping("/exists/{movieId}")
+    public Boolean isExists(@PathVariable Long movieId) {
+        return movieService.isExists(movieId);
     }
 
     @PostMapping()

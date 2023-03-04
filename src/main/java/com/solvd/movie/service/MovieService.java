@@ -8,6 +8,8 @@ public interface MovieService {
 
     List<Movie> retrieveAll();
 
+    Boolean isExists(Long movieId);
+
     Movie create(Movie movie);
 
 }

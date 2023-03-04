@@ -20,6 +20,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Boolean isExists(Long movieId) {
+        return movieRepository.existsById(movieId);
+    }
+
+    @Override
     public Movie create(Movie movie) {
         return movieRepository.save(movie);
     }
