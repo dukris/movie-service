@@ -2,6 +2,7 @@ package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.Movie;
 import com.solvd.movie.service.MovieService;
+import com.solvd.movie.service.property.MicroserviceProperty;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
@@ -18,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
-    private static final String REVIEWS_URL = "http://review/api/v1/reviews";
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final RestTemplate restTemplate;
+    private final MicroserviceProperty microserviceProperty;
 
     @GetMapping()
     public List<MovieDto> getAll() {
@@ -36,7 +37,8 @@ public class MovieController {
 
     @GetMapping("/{movieId}/reviews")
     public ReviewDto[] getReviews(@PathVariable Long movieId) {
-        return restTemplate.getForObject(REVIEWS_URL + "?movieId=" + movieId,
+        return restTemplate.getForObject(
+                microserviceProperty.getReviewUrl() + "?movieId=" + movieId,
                 ReviewDto[].class);
     }
 
