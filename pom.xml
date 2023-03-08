@@ -19,17 +19,20 @@
 	<properties>
 		<java.version>19</java.version>
 		<lombok.version>1.18.24</lombok.version>
-		<org.postgresql.version>42.5.4</org.postgresql.version>
+		<postgresql.version>42.5.4</postgresql.version>
+		<r2dbc-postgresql.version>1.0.1.RELEASE</r2dbc-postgresql.version>
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 		<jakarta-persistence.version>3.1.0</jakarta-persistence.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<org.springframework.cloud.version>4.0.0</org.springframework.cloud.version>
+		<com.playtika.reactivefeign.version>3.2.6</com.playtika.reactivefeign.version>
+		<io.netty.version>4.1.89.Final</io.netty.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<dependency>
@@ -39,7 +42,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
 		</dependency>
 
 		<dependency>
@@ -58,7 +61,13 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>${org.postgresql.version}</version>
+			<version>${postgresql.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>r2dbc-postgresql</artifactId>
+			<version>${r2dbc-postgresql.version}</version>
 		</dependency>
 
 		<dependency>
@@ -83,6 +92,19 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>${org.springframework.cloud.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.playtika.reactivefeign</groupId>
+			<artifactId>feign-reactor-spring-cloud-starter</artifactId>
+			<version>${com.playtika.reactivefeign.version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<version>${io.netty.version}</version>
 		</dependency>
 	</dependencies>
 

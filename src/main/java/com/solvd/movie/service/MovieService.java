@@ -1,15 +1,17 @@
 package com.solvd.movie.service;
 
 import com.solvd.movie.domain.Movie;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface MovieService {
 
-    List<Movie> retrieveAll();
+    Flux<Movie> retrieveAll();
 
-    Boolean isExists(Long movieId);
+    Mono<Movie> retrieveById(Long movieId);
 
-    Movie create(Movie movie);
+    Mono<Boolean> isExist(Long movieId);
+
+    Mono<Movie> create(Movie movie);
 
 }

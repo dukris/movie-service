@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,33 +21,41 @@ public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
-    private final RestTemplate restTemplate;
+    private final WebClient.Builder webClientBuilder;
     private final MicroserviceProperty microserviceProperty;
 
     @GetMapping()
-    public List<MovieDto> getAll() {
-        List<Movie> movies = movieService.retrieveAll();
-        return movieMapper.toDto(movies);
+    public Flux<MovieDto> getAll() {
+        Flux<Movie> movies = movieService.retrieveAll();
+        return movies.map(movieMapper::toDto);
+    }
+
+    @GetMapping("/{movieId}")
+    public Mono<MovieDto> getById(@PathVariable Long movieId) {
+        Mono<Movie> movie = movieService.retrieveById(movieId);
+        return movie.map(movieMapper::toDto);
     }
 
     @GetMapping("/exists/{movieId}")
-    public Boolean isExists(@PathVariable Long movieId) {
-        return movieService.isExists(movieId);
+    public Mono<Boolean> isExist(@PathVariable Long movieId) {
+        return movieService.isExist(movieId);
     }
 
     @GetMapping("/{movieId}/reviews")
-    public ReviewDto[] getReviews(@PathVariable Long movieId) {
-        return restTemplate.getForObject(
-                microserviceProperty.getReviewUrl() + "?movieId=" + movieId,
-                ReviewDto[].class);
+    public Flux<ReviewDto> getReviews(@PathVariable Long movieId) {
+        return webClientBuilder.build()
+                .get()
+                .uri(microserviceProperty.getReviewUrl() + "?movieId={movieId}", movieId)
+                .retrieve()
+                .bodyToFlux(ReviewDto.class);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public MovieDto create(@Validated @RequestBody MovieDto movieDto) {
+    public Mono<MovieDto> create(@Validated @RequestBody MovieDto movieDto) {
         Movie movie = movieMapper.toEntity(movieDto);
-        movie = movieService.create(movie);
-        return movieMapper.toDto(movie);
+        Mono<Movie> movieMono = movieService.create(movie);
+        return movieMono.map(movieMapper::toDto);
     }
 
 }
