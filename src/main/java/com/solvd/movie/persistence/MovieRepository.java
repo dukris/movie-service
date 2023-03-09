@@ -2,12 +2,10 @@ package com.solvd.movie.persistence;
 
 
 import com.solvd.movie.domain.Movie;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import reactor.core.publisher.Mono;
 
-@Repository
-public interface MovieRepository extends ReactiveCrudRepository<Movie, Long> {
+public interface MovieRepository extends R2dbcRepository<Movie, Long> {
 
     Mono<Boolean> existsById(Long id);
 
