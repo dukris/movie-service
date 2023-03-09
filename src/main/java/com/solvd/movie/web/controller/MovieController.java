@@ -2,7 +2,6 @@ package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.Movie;
 import com.solvd.movie.service.MovieService;
-import com.solvd.movie.service.property.MicroserviceProperty;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
@@ -19,10 +18,10 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
+    private final static String REVIEW_URL = "http://review/api/v1/reviews";
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
-    private final MicroserviceProperty microserviceProperty;
 
     @GetMapping()
     public Flux<MovieDto> getAll() {
@@ -45,7 +44,7 @@ public class MovieController {
     public Flux<ReviewDto> getReviews(@PathVariable Long movieId) {
         return webClientBuilder.build()
                 .get()
-                .uri(microserviceProperty.getReviewUrl() + "?movieId={movieId}", movieId)
+                .uri(REVIEW_URL + "?movieId={movieId}", movieId)
                 .retrieve()
                 .bodyToFlux(ReviewDto.class);
     }

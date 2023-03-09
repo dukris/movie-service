@@ -20,6 +20,3 @@ eureka:
   client:
     service-url:
       default-zone: ${EUREKA_HOST}
-
-microservice:
-  review-url: ${REVIEW_URL}
