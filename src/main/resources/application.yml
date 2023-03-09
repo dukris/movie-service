@@ -6,23 +6,17 @@ spring:
     import: .env[.properties]
   application:
     name: movie
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DATASOURCE_HOST}:5432/movie
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
   jackson:
     default-property-inclusion: NON_NULL
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
+  r2dbc:
+    url: r2dbc:postgresql://${DATASOURCE_HOST}:5432/movie
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  sql:
+    init:
+      mode: always
 
 eureka:
   client:
     service-url:
       default-zone: ${EUREKA_HOST}
-
-microservice:
-  review-url: ${REVIEW_URL}
