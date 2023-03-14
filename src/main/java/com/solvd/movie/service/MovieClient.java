@@ -4,7 +4,7 @@ import com.solvd.movie.domain.Movie;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface MovieService {
+public interface MovieClient {
 
     Flux<Movie> retrieveAll();
 

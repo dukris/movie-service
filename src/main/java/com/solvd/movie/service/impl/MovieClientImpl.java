@@ -3,7 +3,7 @@ package com.solvd.movie.service.impl;
 import com.solvd.movie.domain.Movie;
 import com.solvd.movie.domain.exception.ResourceNotFoundException;
 import com.solvd.movie.persistence.MovieRepository;
-import com.solvd.movie.service.MovieService;
+import com.solvd.movie.service.MovieClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MovieServiceImpl implements MovieService {
+public class MovieClientImpl implements MovieClient {
 
     private final MovieRepository movieRepository;
 
