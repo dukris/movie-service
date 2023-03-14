@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 public class MovieController {
 
     @Value("${services.review-url}")
-    private final String REVIEW_URL;
+    private final String reviewUrl;
     private final MovieClient movieClient;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
@@ -48,7 +48,7 @@ public class MovieController {
     public Flux<ReviewDto> getReviews(@PathVariable Long movieId) {
         return webClientBuilder.build()
                 .get()
-                .uri(REVIEW_URL + "?movieId={movieId}", movieId)
+                .uri(reviewUrl + "?movieId={movieId}", movieId)
                 .retrieve()
                 .bodyToFlux(ReviewDto.class);
     }
