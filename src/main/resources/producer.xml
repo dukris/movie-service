@@ -1,5 +1,4 @@
 <producer>
-    <bootstrapServers>localhost:9092</bootstrapServers>
     <keySerializer>org.apache.kafka.common.serialization.StringSerializer</keySerializer>
     <valueSerializer>org.apache.kafka.common.serialization.LongSerializer</valueSerializer>
     <topic>movies</topic>

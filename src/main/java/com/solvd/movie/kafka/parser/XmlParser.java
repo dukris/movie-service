@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 
 import java.util.Objects;
 
-public class XmlParser {
+public abstract class XmlParser {
 
     @SneakyThrows
     public static String getValue(String node) {

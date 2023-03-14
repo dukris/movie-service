@@ -3,6 +3,7 @@ package com.solvd.movie.kafka.config;
 import com.solvd.movie.kafka.parser.XmlParser;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -15,10 +16,13 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
+    @Value("${kafka.bootstrap-servers}")
+    private String bootstrapServers;
+
     @Bean
     public SenderOptions<String, Long> senderOptions() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, XmlParser.getValue("bootstrapServers"));
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, XmlParser.getValue("keySerializer"));
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, XmlParser.getValue("valueSerializer"));
         return SenderOptions.create(props);
