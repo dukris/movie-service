@@ -2,7 +2,7 @@ package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.Movie;
 import com.solvd.movie.kafka.KafkaProducer;
-import com.solvd.movie.service.MovieClient;
+import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
@@ -22,26 +22,26 @@ public class MovieController {
 
     @Value("${services.review-url}")
     private String reviewUrl;
-    private final MovieClient movieClient;
+    private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
     private final KafkaProducer kafkaProducer;
 
     @GetMapping()
     public Flux<MovieDto> getAll() {
-        Flux<Movie> movies = movieClient.retrieveAll();
+        Flux<Movie> movies = movieService.retrieveAll();
         return movies.map(movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
     public Mono<MovieDto> getById(@PathVariable Long movieId) {
-        Mono<Movie> movie = movieClient.retrieveById(movieId);
+        Mono<Movie> movie = movieService.retrieveById(movieId);
         return movie.map(movieMapper::toDto);
     }
 
     @GetMapping("/exists/{movieId}")
     public Mono<Boolean> isExist(@PathVariable Long movieId) {
-        return movieClient.isExist(movieId);
+        return movieService.isExist(movieId);
     }
 
     @GetMapping("/{movieId}/reviews")
@@ -57,14 +57,14 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<MovieDto> create(@Validated @RequestBody MovieDto movieDto) {
         Movie movie = movieMapper.toEntity(movieDto);
-        Mono<Movie> movieMono = movieClient.create(movie);
+        Mono<Movie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
     }
 
     @DeleteMapping("/{movieId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long movieId) {
-        movieClient.delete(movieId);
+        movieService.delete(movieId);
         kafkaProducer.send(movieId);
     }
 
