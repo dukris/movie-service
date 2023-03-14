@@ -3,10 +3,12 @@ package com.solvd.movie.kafka.parser;
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 import java.util.Objects;
 
-public abstract class XmlParser {
+@UtilityClass
+public class XmlParser {
 
     @SneakyThrows
     public static String getValue(String node) {
