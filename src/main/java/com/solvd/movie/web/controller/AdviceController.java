@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -18,6 +19,14 @@ public class AdviceController {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionDto handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return ExceptionDto.builder()
+                .message(ex.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(IOException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleIOException(IOException ex) {
         return ExceptionDto.builder()
                 .message(ex.getMessage())
                 .build();

@@ -26,7 +26,9 @@
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<org.springframework.cloud.version>4.0.0</org.springframework.cloud.version>
 		<com.playtika.reactivefeign.version>3.2.6</com.playtika.reactivefeign.version>
-		<io.netty.version>4.1.89.Final</io.netty.version>
+		<org.springframework.kafka.version>3.0.2</org.springframework.kafka.version>
+		<io.projectreactor.kafka.version>1.3.16</io.projectreactor.kafka.version>
+		<com.jcabi.version>0.27.2</com.jcabi.version>
 	</properties>
 
 	<dependencies>
@@ -102,9 +104,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-resolver-dns-native-macos</artifactId>
-			<version>${io.netty.version}</version>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>${org.springframework.kafka.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.kafka</groupId>
+			<artifactId>reactor-kafka</artifactId>
+			<version>${io.projectreactor.kafka.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jcabi</groupId>
+			<artifactId>jcabi-xml</artifactId>
+			<version>${com.jcabi.version}</version>
 		</dependency>
 	</dependencies>
 

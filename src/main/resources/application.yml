@@ -20,3 +20,9 @@ eureka:
   client:
     service-url:
       default-zone: ${EUREKA_HOST}
+
+services:
+  review-url: ${REVIEW_URL}
+
+kafka:
+  bootstrap-servers: ${BOOTSTRAP_SERVERS}

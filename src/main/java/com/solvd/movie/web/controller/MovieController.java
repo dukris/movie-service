@@ -1,11 +1,13 @@
 package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.Movie;
+import com.solvd.movie.kafka.KafkaProducer;
 import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
-    private final static String REVIEW_URL = "http://review/api/v1/reviews";
+    @Value("${services.review-url}")
+    private String reviewUrl;
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping()
     public Flux<MovieDto> getAll() {
@@ -44,7 +48,7 @@ public class MovieController {
     public Flux<ReviewDto> getReviews(@PathVariable Long movieId) {
         return webClientBuilder.build()
                 .get()
-                .uri(REVIEW_URL + "?movieId={movieId}", movieId)
+                .uri(reviewUrl + "?movieId={movieId}", movieId)
                 .retrieve()
                 .bodyToFlux(ReviewDto.class);
     }
@@ -55,6 +59,13 @@ public class MovieController {
         Movie movie = movieMapper.toEntity(movieDto);
         Mono<Movie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
+    }
+
+    @DeleteMapping("/{movieId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long movieId) {
+        movieService.delete(movieId);
+        kafkaProducer.send(movieId);
     }
 
 }
