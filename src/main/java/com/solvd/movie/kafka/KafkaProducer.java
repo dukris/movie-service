@@ -1,5 +1,6 @@
 package com.solvd.movie.kafka;
 
+import com.solvd.movie.kafka.parser.XmlParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,13 +15,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-    private static final String TOPIC = "movies";
-
     private final KafkaSender<String, Long> kafkaSender;
 
     public void send(Long message) {
         kafkaSender.send(Mono.just(SenderRecord.create(
-                        TOPIC,
+                        XmlParser.getValue("topic"),
                         2,
                         System.currentTimeMillis(),
                         UUID.randomUUID().toString(),

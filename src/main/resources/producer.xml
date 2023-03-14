@@ -1,0 +1,5 @@
+<producer>
+    <keySerializer>org.apache.kafka.common.serialization.StringSerializer</keySerializer>
+    <valueSerializer>org.apache.kafka.common.serialization.LongSerializer</valueSerializer>
+    <topic>movies</topic>
+</producer>
