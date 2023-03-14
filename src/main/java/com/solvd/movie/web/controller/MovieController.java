@@ -21,8 +21,7 @@ import reactor.core.publisher.Mono;
 public class MovieController {
 
     @Value("${services.review-url}")
-    private String REVIEW_URL;
-
+    private final String REVIEW_URL;
     private final MovieClient movieClient;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
