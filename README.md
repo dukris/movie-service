@@ -2,7 +2,7 @@
 This is a reactive part of simple "Movie App" that contains movie microservice. In this app user can leave reviews for movies.
 
 ## Glossary
-1. Movie - information about movie
+Movie - information about movie
 
 ## Implemented pattern
 ### Service registry
