@@ -14,4 +14,5 @@ public interface MovieService {
 
     Mono<Movie> create(Movie movie);
 
+    void delete(Long movieId);
 }

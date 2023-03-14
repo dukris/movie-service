@@ -27,6 +27,8 @@
 		<org.springframework.cloud.version>4.0.0</org.springframework.cloud.version>
 		<com.playtika.reactivefeign.version>3.2.6</com.playtika.reactivefeign.version>
 		<io.netty.version>4.1.89.Final</io.netty.version>
+		<org.springframework.kafka.version>3.0.2</org.springframework.kafka.version>
+		<io.projectreactor.kafka.version>1.3.16</io.projectreactor.kafka.version>
 	</properties>
 
 	<dependencies>
@@ -105,6 +107,18 @@
 			<groupId>io.netty</groupId>
 			<artifactId>netty-resolver-dns-native-macos</artifactId>
 			<version>${io.netty.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>${org.springframework.kafka.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.kafka</groupId>
+			<artifactId>reactor-kafka</artifactId>
+			<version>${io.projectreactor.kafka.version}</version>
 		</dependency>
 	</dependencies>
 

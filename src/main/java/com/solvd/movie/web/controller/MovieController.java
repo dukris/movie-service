@@ -1,6 +1,7 @@
 package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.Movie;
+import com.solvd.movie.kafka.KafkaProducer;
 import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
@@ -19,9 +20,11 @@ import reactor.core.publisher.Mono;
 public class MovieController {
 
     private final static String REVIEW_URL = "http://review/api/v1/reviews";
+
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping()
     public Flux<MovieDto> getAll() {
@@ -55,6 +58,13 @@ public class MovieController {
         Movie movie = movieMapper.toEntity(movieDto);
         Mono<Movie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
+    }
+
+    @DeleteMapping("/{movieId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long movieId) {
+        movieService.delete(movieId);
+        kafkaProducer.send(movieId);
     }
 
 }
