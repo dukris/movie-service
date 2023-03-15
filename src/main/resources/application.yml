@@ -19,7 +19,10 @@ spring:
 eureka:
   client:
     service-url:
-      default-zone: ${EUREKA_HOST}
+      default-zone: http://${EUREKA_HOST}:8761/eureka
+  instance:
+    prefer-ip-address: true
+    hostname: ${EUREKA_NAME}
 
 services:
   review-url: ${REVIEW_URL}
