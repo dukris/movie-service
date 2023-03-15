@@ -6,6 +6,6 @@ RUN mvn -f /pom.xml -DskipTests clean package
 
 FROM eclipse-temurin:19
 WORKDIR usr/src/app
-COPY --from=build /target/*.jar app.jar
+COPY --from=build /target/*.jar movie.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "movie.jar"]
