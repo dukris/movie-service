@@ -23,6 +23,6 @@ eureka:
 
 services:
   review-url: ${REVIEW_URL}
-
+  
 kafka:
   bootstrap-servers: ${BOOTSTRAP_SERVERS}
