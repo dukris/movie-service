@@ -90,11 +90,11 @@
 			<version>${javax.validation.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-			<version>${org.springframework.cloud.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+<!--			<version>${org.springframework.cloud.version}</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>com.playtika.reactivefeign</groupId>
