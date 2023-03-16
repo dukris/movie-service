@@ -16,10 +16,10 @@ spring:
     init:
       mode: always
 
-eureka:
-  client:
-    service-url:
-      default-zone: http://${EUREKA_HOST}:8761/eureka
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: http://${EUREKA_HOST}:8761/eureka
 
 services:
   review-url: ${REVIEW_URL}
