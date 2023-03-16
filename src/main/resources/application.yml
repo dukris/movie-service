@@ -20,12 +20,9 @@ eureka:
   client:
     service-url:
       default-zone: http://${EUREKA_HOST}:8761/eureka
-  instance:
-    prefer-ip-address: true
-    hostname: ${EUREKA_NAME}
 
 services:
   review-url: ${REVIEW_URL}
   
 kafka:
-  bootstrap-servers: ${BOOTSTRAP_SERVERS}
+  bootstrap-servers: ${BOOTSTRAP_SERVERS}:9092
