@@ -1,3 +1,5 @@
+CREATE DATABASE movie;
+
 CREATE TABLE IF NOT EXISTS movies
 (
     id          bigserial    NOT NULL,
