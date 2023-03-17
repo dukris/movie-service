@@ -2,8 +2,6 @@ server:
   port: 8081
 
 spring:
-  config:
-    import: .env[.properties]
   application:
     name: movie
   jackson:
@@ -23,6 +21,6 @@ spring:
 
 services:
   review-url: ${REVIEW_URL}
-  
+
 kafka:
   bootstrap-servers: ${BOOTSTRAP_SERVERS}:9092
