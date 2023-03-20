@@ -45,7 +45,7 @@ public class KafkaProducerConfig {
     @Bean
     public NewTopic newTopic() {
         return TopicBuilder.name(XmlParser.getValue("topic"))
-                .partitions(6)
+                .partitions(2)
                 .replicas(1)
                 .build();
     }

@@ -20,7 +20,7 @@ public class KafkaProducer {
     public void send(Long message) {
         kafkaSender.send(Mono.just(SenderRecord.create(
                         XmlParser.getValue("topic"),
-                        2,
+                        1,
                         System.currentTimeMillis(),
                         UUID.randomUUID().toString(),
                         message,
