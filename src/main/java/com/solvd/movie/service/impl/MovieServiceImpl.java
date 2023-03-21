@@ -27,8 +27,8 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findById(movieId)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
-                .flatMap(optionalUser -> {
-                    if (optionalUser.isEmpty()) {
+                .flatMap(optionalMovie -> {
+                    if (optionalMovie.isEmpty()) {
                         return Mono.error(new ResourceNotFoundException("Movie with id = " + movieId + " doesn't exist!"));
                     }
                     return movieRepository.findById(movieId);
