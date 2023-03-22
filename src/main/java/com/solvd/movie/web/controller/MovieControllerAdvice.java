@@ -14,32 +14,25 @@ import java.util.List;
 
 @Slf4j
 @RestControllerAdvice
-public class AdviceController {
+public class MovieControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionDto handleResourceNotFoundException(ResourceNotFoundException ex) {
-        return ExceptionDto.builder()
-                .message(ex.getMessage())
-                .build();
+        return new ExceptionDto(null, ex.getMessage());
     }
 
     @ExceptionHandler(IOException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDto handleIOException(IOException ex) {
-        return ExceptionDto.builder()
-                .message(ex.getMessage())
-                .build();
+        return new ExceptionDto(null, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public List<ExceptionDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         return ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> ExceptionDto.builder()
-                        .field(error.getObjectName() + "." + error.getField())
-                        .message(error.getDefaultMessage())
-                        .build())
+                .map(error -> new ExceptionDto(error.getObjectName() + "." + error.getField(), error.getDefaultMessage()))
                 .toList();
     }
 
@@ -47,9 +40,7 @@ public class AdviceController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionDto handleOtherExceptions(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return ExceptionDto.builder()
-                .message("Please, try later!")
-                .build();
+        return new ExceptionDto(null, "Please, try later!");
     }
 
 }
