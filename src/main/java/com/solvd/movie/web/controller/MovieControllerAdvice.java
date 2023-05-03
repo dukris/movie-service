@@ -18,27 +18,33 @@ public class MovieControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionDto handleResourceNotFoundException(ResourceNotFoundException ex) {
+    public ExceptionDto handleResourceNotFoundException(
+            final ResourceNotFoundException ex) {
         return new ExceptionDto(null, ex.getMessage());
     }
 
     @ExceptionHandler(IOException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionDto handleIOException(IOException ex) {
+    public ExceptionDto handleIOException(final IOException ex) {
         return new ExceptionDto(null, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ExceptionDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public List<ExceptionDto> handleMethodArgumentNotValidException(
+            final MethodArgumentNotValidException ex) {
         return ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> new ExceptionDto(error.getObjectName() + "." + error.getField(), error.getDefaultMessage()))
+                .map(error -> new ExceptionDto(
+                                error.getObjectName() + "." + error.getField(),
+                                error.getDefaultMessage()
+                        )
+                )
                 .toList();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionDto handleOtherExceptions(Exception ex) {
+    public ExceptionDto handleOtherExceptions(final Exception ex) {
         log.error(ex.getMessage(), ex);
         return new ExceptionDto(null, "Please, try later!");
     }

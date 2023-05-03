@@ -17,7 +17,7 @@ public class KafkaProducer {
 
     private final KafkaSender<String, Long> kafkaSender;
 
-    public void send(Long message) {
+    public void send(final Long message) {
         kafkaSender.send(Mono.just(SenderRecord.create(
                         XmlParser.getValue("topic"),
                         1,

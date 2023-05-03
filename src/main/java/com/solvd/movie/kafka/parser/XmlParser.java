@@ -11,7 +11,7 @@ import java.util.Objects;
 public class XmlParser {
 
     @SneakyThrows
-    public static String getValue(String node) {
+    public static String getValue(final String node) {
         XML xml = new XMLDocument(Objects.requireNonNull(
                 XmlParser.class
                         .getClassLoader()

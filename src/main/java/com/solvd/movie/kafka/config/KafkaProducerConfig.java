@@ -25,8 +25,10 @@ public class KafkaProducerConfig {
     public SenderOptions<String, Long> senderOptions() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, XmlParser.getValue("keySerializer"));
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, XmlParser.getValue("valueSerializer"));
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                XmlParser.getValue("keySerializer"));
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                XmlParser.getValue("valueSerializer"));
         return SenderOptions.create(props);
     }
 

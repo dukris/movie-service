@@ -32,25 +32,25 @@ public class MovieController {
     private final SearchCriteriaMapper criteriaMapper;
 
     @GetMapping()
-    public Flux<MovieDto> getAllByCriteria(SearchCriteriaDto criteriaDto) {
+    public Flux<MovieDto> getAllByCriteria(final SearchCriteriaDto criteriaDto) {
         SearchCriteria criteria = criteriaMapper.toEntity(criteriaDto);
         Flux<PgMovie> movies = movieService.retrieveAllByCriteria(criteria);
         return movies.map(movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
-    public Mono<MovieDto> getById(@PathVariable Long movieId) {
+    public Mono<MovieDto> getById(@PathVariable final Long movieId) {
         Mono<PgMovie> movie = movieService.retrieveById(movieId);
         return movie.map(movieMapper::toDto);
     }
 
     @GetMapping("/exists/{movieId}")
-    public Mono<Boolean> isExist(@PathVariable Long movieId) {
+    public Mono<Boolean> isExist(@PathVariable final Long movieId) {
         return movieService.isExist(movieId);
     }
 
     @GetMapping("/{movieId}/reviews")
-    public Flux<ReviewDto> getReviews(@PathVariable Long movieId) {
+    public Flux<ReviewDto> getReviews(@PathVariable final Long movieId) {
         return webClientBuilder.build()
                 .get()
                 .uri(reviewUrl + "?movieId={movieId}", movieId)
@@ -60,7 +60,7 @@ public class MovieController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<MovieDto> create(@Validated @RequestBody MovieDto movieDto) {
+    public Mono<MovieDto> create(@Validated @RequestBody final MovieDto movieDto) {
         PgMovie movie = movieMapper.toEntity(movieDto);
         Mono<PgMovie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
@@ -68,7 +68,7 @@ public class MovieController {
 
     @DeleteMapping("/{movieId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long movieId) {
+    public void delete(@PathVariable final Long movieId) {
         movieService.delete(movieId);
         kafkaProducer.send(movieId);
     }

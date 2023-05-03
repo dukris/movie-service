@@ -24,7 +24,7 @@ public class MovieServiceImpl implements MovieService {
     private final MovieMapper movieMapper;
 
     @Override
-    public Flux<PgMovie> retrieveAllByCriteria(SearchCriteria criteria) {
+    public Flux<PgMovie> retrieveAllByCriteria(final SearchCriteria criteria) {
         Flux<EsMovie> movies;
         if (criteria.getName() != null && criteria.getYear() != null) {
             movies = esRepository.findAllByNameAndYear(
@@ -41,7 +41,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Mono<PgMovie> retrieveById(Long movieId) {
+    public Mono<PgMovie> retrieveById(final Long movieId) {
         return pgRepository.findById(movieId)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
@@ -58,19 +58,21 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Mono<Boolean> isExist(Long movieId) {
+    public Mono<Boolean> isExist(final Long movieId) {
         return pgRepository.existsById(movieId);
     }
 
     @Override
-    public Mono<PgMovie> create(PgMovie movie) {
+    public Mono<PgMovie> create(final PgMovie movie) {
         return pgRepository.save(movie)
-                .flatMap(savedMovie -> esRepository.save(movieMapper.toEntity(savedMovie))
-                        .flatMap(savedEsMovie -> Mono.just(movieMapper.toEntity(savedEsMovie))));
+                .flatMap(savedMovie -> esRepository.save(
+                                movieMapper.toEntity(savedMovie))
+                        .flatMap(savedEsMovie -> Mono.just(
+                                movieMapper.toEntity(savedEsMovie))));
     }
 
     @Override
-    public void delete(Long movieId) {
+    public void delete(final Long movieId) {
         esRepository.deleteById(movieId).subscribe();
         pgRepository.deleteById(movieId).subscribe();
     }
