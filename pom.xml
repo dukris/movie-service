@@ -11,9 +11,9 @@
 	</parent>
 
 	<groupId>com.solvd</groupId>
-	<artifactId>pgMovie</artifactId>
+	<artifactId>movie</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pgMovie</name>
+	<name>movie</name>
 	<description>Movie microservice</description>
 
 	<properties>
@@ -52,23 +52,11 @@
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>co.elastic.clients</groupId>-->
-<!--			<artifactId>elasticsearch-java</artifactId>-->
-<!--			<version>8.5.3</version>-->
-<!--		</dependency>-->
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-loadbalancer</artifactId>
 			<version>${org.springframework.cloud.version}</version>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.data</groupId>-->
-<!--			<artifactId>spring-data-elasticsearch</artifactId>-->
-<!--			<version>${org.springframework.data.version}</version>-->
-<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
