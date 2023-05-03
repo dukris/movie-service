@@ -15,6 +15,9 @@ spring:
   sql:
     init:
       mode: always
+  elasticsearch:
+    rest:
+      uris: ${ELASTIC_SERVER}:9200
 
 services:
   review-url: ${REVIEW_URL}

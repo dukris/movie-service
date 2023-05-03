@@ -11,12 +11,11 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name = "movies")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie {
+public class PgMovie {
 
     @Id
     private Long id;
     private String name;
     private String description;
     private Integer year;
-
 }

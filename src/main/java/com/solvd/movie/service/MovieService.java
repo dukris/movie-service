@@ -1,18 +1,20 @@
 package com.solvd.movie.service;
 
-import com.solvd.movie.domain.Movie;
+import com.solvd.movie.domain.PgMovie;
+import com.solvd.movie.domain.criteria.SearchCriteria;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface MovieService {
 
-    Flux<Movie> retrieveAll();
+    Flux<PgMovie> retrieveAllByCriteria(SearchCriteria searchCriteria);
 
-    Mono<Movie> retrieveById(Long movieId);
+    Mono<PgMovie> retrieveById(Long movieId);
 
     Mono<Boolean> isExist(Long movieId);
 
-    Mono<Movie> create(Movie movie);
+    Mono<PgMovie> create(PgMovie movie);
 
     void delete(Long movieId);
+
 }

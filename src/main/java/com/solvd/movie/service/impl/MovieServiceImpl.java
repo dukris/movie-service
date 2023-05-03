@@ -1,9 +1,13 @@
 package com.solvd.movie.service.impl;
 
-import com.solvd.movie.domain.Movie;
+import com.solvd.movie.domain.EsMovie;
+import com.solvd.movie.domain.PgMovie;
+import com.solvd.movie.domain.criteria.SearchCriteria;
 import com.solvd.movie.domain.exception.ResourceNotFoundException;
-import com.solvd.movie.persistence.MovieRepository;
+import com.solvd.movie.persistence.EsRepository;
+import com.solvd.movie.persistence.PgRepository;
 import com.solvd.movie.service.MovieService;
+import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,39 +19,60 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
-    private final MovieRepository movieRepository;
+    private final PgRepository pgRepository;
+    private final EsRepository esRepository;
+    private final MovieMapper movieMapper;
 
     @Override
-    public Flux<Movie> retrieveAll() {
-        return movieRepository.findAll();
+    public Flux<PgMovie> retrieveAllByCriteria(SearchCriteria criteria) {
+        Flux<EsMovie> movies;
+        if (criteria.getName() != null && criteria.getYear() != null) {
+            movies = esRepository.findAllByNameAndYear(
+                    criteria.getName(), criteria.getYear()
+            );
+        } else if (criteria.getName() != null) {
+            movies = esRepository.findAllByName(criteria.getName());
+        } else if (criteria.getYear() != null) {
+            movies = esRepository.findAllByYear(criteria.getYear());
+        } else {
+            movies = esRepository.findAll();
+        }
+        return movies.map(movieMapper::toEntity);
     }
 
     @Override
-    public Mono<Movie> retrieveById(Long movieId) {
-        return movieRepository.findById(movieId)
+    public Mono<PgMovie> retrieveById(Long movieId) {
+        return pgRepository.findById(movieId)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
                 .flatMap(optionalMovie -> {
                     if (optionalMovie.isEmpty()) {
-                        return Mono.error(new ResourceNotFoundException("Movie with id = " + movieId + " doesn't exist!"));
+                        return Mono.error(
+                                new ResourceNotFoundException(
+                                        "Movie with id = " + movieId + " doesn't exist!"
+                                )
+                        );
                     }
-                    return movieRepository.findById(movieId);
+                    return pgRepository.findById(movieId);
                 });
     }
 
     @Override
     public Mono<Boolean> isExist(Long movieId) {
-        return movieRepository.existsById(movieId);
+        return pgRepository.existsById(movieId);
     }
 
     @Override
-    public Mono<Movie> create(Movie movie) {
-        return movieRepository.save(movie);
+    public Mono<PgMovie> create(PgMovie movie) {
+        return pgRepository.save(movie)
+                .flatMap(savedMovie -> esRepository.save(movieMapper.toEntity(savedMovie))
+                        .flatMap(savedEsMovie -> Mono.just(movieMapper.toEntity(savedEsMovie))));
     }
 
     @Override
     public void delete(Long movieId) {
-        movieRepository.deleteById(movieId).subscribe();
+        esRepository.deleteById(movieId).subscribe();
+        pgRepository.deleteById(movieId).subscribe();
     }
 
 }

@@ -1,11 +1,14 @@
 package com.solvd.movie.web.controller;
 
-import com.solvd.movie.domain.Movie;
+import com.solvd.movie.domain.PgMovie;
+import com.solvd.movie.domain.criteria.SearchCriteria;
 import com.solvd.movie.kafka.KafkaProducer;
 import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
+import com.solvd.movie.web.dto.criteria.SearchCriteriaDto;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
+import com.solvd.movie.web.dto.mapper.SearchCriteriaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,16 +29,18 @@ public class MovieController {
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
     private final KafkaProducer kafkaProducer;
+    private final SearchCriteriaMapper criteriaMapper;
 
     @GetMapping()
-    public Flux<MovieDto> getAll() {
-        Flux<Movie> movies = movieService.retrieveAll();
+    public Flux<MovieDto> getAllByCriteria(SearchCriteriaDto criteriaDto) {
+        SearchCriteria criteria = criteriaMapper.toEntity(criteriaDto);
+        Flux<PgMovie> movies = movieService.retrieveAllByCriteria(criteria);
         return movies.map(movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
     public Mono<MovieDto> getById(@PathVariable Long movieId) {
-        Mono<Movie> movie = movieService.retrieveById(movieId);
+        Mono<PgMovie> movie = movieService.retrieveById(movieId);
         return movie.map(movieMapper::toDto);
     }
 
@@ -56,8 +61,8 @@ public class MovieController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<MovieDto> create(@Validated @RequestBody MovieDto movieDto) {
-        Movie movie = movieMapper.toEntity(movieDto);
-        Mono<Movie> movieMono = movieService.create(movie);
+        PgMovie movie = movieMapper.toEntity(movieDto);
+        Mono<PgMovie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
     }
 
