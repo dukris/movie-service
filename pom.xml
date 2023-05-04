@@ -123,7 +123,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>com.solvd.pgMovie.MovieApplication</mainClass>
+          <mainClass>com.solvd.movie.MovieApplication</mainClass>
           <layout>JAR</layout>
         </configuration>
         <executions>
