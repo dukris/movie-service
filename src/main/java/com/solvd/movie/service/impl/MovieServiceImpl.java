@@ -49,7 +49,8 @@ public class MovieServiceImpl implements MovieService {
                     if (optionalMovie.isEmpty()) {
                         return Mono.error(
                                 new ResourceNotFoundException(
-                                        "Movie with id = " + movieId + " doesn't exist!"
+                                        "Movie with id = " + movieId
+                                                + " doesn't exist!"
                                 )
                         );
                     }

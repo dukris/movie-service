@@ -32,7 +32,8 @@ public class MovieController {
     private final SearchCriteriaMapper criteriaMapper;
 
     @GetMapping()
-    public Flux<MovieDto> getAllByCriteria(final SearchCriteriaDto criteriaDto) {
+    public Flux<MovieDto> getAllByCriteria(
+            final SearchCriteriaDto criteriaDto) {
         SearchCriteria criteria = criteriaMapper.toEntity(criteriaDto);
         Flux<PgMovie> movies = movieService.retrieveAllByCriteria(criteria);
         return movies.map(movieMapper::toDto);
@@ -60,7 +61,8 @@ public class MovieController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<MovieDto> create(@Validated @RequestBody final MovieDto movieDto) {
+    public Mono<MovieDto> create(
+            @Validated @RequestBody final MovieDto movieDto) {
         PgMovie movie = movieMapper.toEntity(movieDto);
         Mono<PgMovie> movieMono = movieService.create(movie);
         return movieMono.map(movieMapper::toDto);
