@@ -1,6 +1,7 @@
 package com.solvd.movie.kafka.consumer;
 
 import com.solvd.movie.domain.Event;
+import com.solvd.movie.domain.exception.IllegalActionException;
 import com.solvd.movie.service.MovieService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,16 @@ public class KafkaConsumer {
                     ReceiverOffset offset = record.receiverOffset();
                     Event event = record.value();
                     log.info("Received event: " + event.toString());
-                    if (event.getAction() != null
-                            && event.getAction() == Event.Action.CREATE_MOVIE) {
-                        this.movieService.replicateCreate(event.getMovie())
-                                .subscribe();
+                    switch (event.getAction()) {
+                        case CREATE_MOVIE -> this.movieService.replicateCreate(
+                                event.getMovie()
+                        ).subscribe();
+                        case DELETE_MOVIE -> this.movieService.replicateDelete(
+                                event.getMovie().getId()
+                        ).subscribe();
+                        default -> throw new IllegalActionException(
+                                "Wrong action!"
+                        );
                     }
                     offset.acknowledge();
                 });

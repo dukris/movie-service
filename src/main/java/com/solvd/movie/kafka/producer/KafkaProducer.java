@@ -21,12 +21,13 @@ public class KafkaProducer {
 
     public void send(final Event event) {
         this.kafkaSender.send(Mono.just(SenderRecord.create(
-                        this.parser.getValue("producer.xml","topic"),
+                        this.parser.getValue("producer.xml", "topic"),
                         1,
                         System.currentTimeMillis(),
                         UUID.randomUUID().toString(),
                         event,
-                        null)))
+                        null))
+                )
                 .subscribe();
     }
 
