@@ -43,7 +43,13 @@ public class EsMovieServiceImpl implements EsMovieService {
     @Override
     @Transactional
     public Mono<EsMovie> update(final EsMovie movie) {
-        return this.esRepository.save(movie);
+        return this.esRepository.findById(movie.getId())
+                .flatMap(foundMovie -> {
+                    foundMovie.setName(movie.getName());
+                    foundMovie.setYear(movie.getYear());
+                    foundMovie.setDescription(movie.getDescription());
+                    return this.esRepository.save(movie);
+                });
     }
 
     @Override

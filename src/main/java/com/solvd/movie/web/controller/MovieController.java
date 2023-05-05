@@ -72,9 +72,10 @@ public class MovieController {
     }
 
     @PutMapping("/{movieId}")
-    public Mono<MovieDto> update(@PathVariable final String movieId,
+    public Mono<MovieDto> update(@PathVariable final Long movieId,
             @Validated @RequestBody final MovieDto movieDto) {
         PgMovie movie = this.movieMapper.toEntity(movieDto);
+        movie.setId(movieId);
         Mono<PgMovie> movieMono = this.pgMovieService.update(movie);
         return movieMono.map(this.movieMapper::toDto);
     }
