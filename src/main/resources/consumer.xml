@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--Copyright (c) 2023 Hanna Izmailovich-->
+<consumer>
+    <groupId>group1</groupId>
+    <keyDeserializer>org.apache.kafka.common.serialization.StringDeserializer</keyDeserializer>
+    <valueDeserializer>org.springframework.kafka.support.serializer.JsonDeserializer</valueDeserializer>
+    <valueDefaultType>com.solvd.movie.domain.Event</valueDefaultType>
+    <topic>movies</topic>
+</consumer>

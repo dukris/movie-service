@@ -2,7 +2,6 @@ package com.solvd.movie.web.controller;
 
 import com.solvd.movie.domain.PgMovie;
 import com.solvd.movie.domain.criteria.SearchCriteria;
-import com.solvd.movie.kafka.KafkaProducer;
 import com.solvd.movie.service.MovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
@@ -23,38 +22,38 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
-    @Value("${services.review-url}")
-    private String reviewUrl;
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final WebClient.Builder webClientBuilder;
-    private final KafkaProducer kafkaProducer;
     private final SearchCriteriaMapper criteriaMapper;
+
+    @Value("${services.review-url}")
+    private String reviewUrl;
 
     @GetMapping()
     public Flux<MovieDto> getAllByCriteria(
             final SearchCriteriaDto criteriaDto) {
-        SearchCriteria criteria = criteriaMapper.toEntity(criteriaDto);
-        Flux<PgMovie> movies = movieService.retrieveAllByCriteria(criteria);
-        return movies.map(movieMapper::toDto);
+        SearchCriteria criteria = this.criteriaMapper.toEntity(criteriaDto);
+        Flux<PgMovie> movies = this.movieService.retrieveAllByCriteria(criteria);
+        return movies.map(this.movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
     public Mono<MovieDto> getById(@PathVariable final Long movieId) {
-        Mono<PgMovie> movie = movieService.retrieveById(movieId);
-        return movie.map(movieMapper::toDto);
+        Mono<PgMovie> movie = this.movieService.retrieveById(movieId);
+        return movie.map(this.movieMapper::toDto);
     }
 
     @GetMapping("/exists/{movieId}")
     public Mono<Boolean> isExist(@PathVariable final Long movieId) {
-        return movieService.isExist(movieId);
+        return this.movieService.isExist(movieId);
     }
 
     @GetMapping("/{movieId}/reviews")
     public Flux<ReviewDto> getReviews(@PathVariable final Long movieId) {
-        return webClientBuilder.build()
+        return this.webClientBuilder.build()
                 .get()
-                .uri(reviewUrl + "?movieId={movieId}", movieId)
+                .uri(this.reviewUrl + "?movieId={movieId}", movieId)
                 .retrieve()
                 .bodyToFlux(ReviewDto.class);
     }
@@ -63,16 +62,15 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<MovieDto> create(
             @Validated @RequestBody final MovieDto movieDto) {
-        PgMovie movie = movieMapper.toEntity(movieDto);
-        Mono<PgMovie> movieMono = movieService.create(movie);
-        return movieMono.map(movieMapper::toDto);
+        PgMovie movie = this.movieMapper.toEntity(movieDto);
+        Mono<PgMovie> movieMono = this.movieService.create(movie);
+        return movieMono.map(this.movieMapper::toDto);
     }
 
     @DeleteMapping("/{movieId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final Long movieId) {
-        movieService.delete(movieId);
-        kafkaProducer.send(movieId);
+    public Mono<Void> delete(@PathVariable final Long movieId) {
+        return this.movieService.delete(movieId);
     }
 
 }

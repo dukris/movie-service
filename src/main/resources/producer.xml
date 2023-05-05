@@ -2,6 +2,6 @@
 <!--Copyright (c) 2023 Hanna Izmailovich-->
 <producer>
   <keySerializer>org.apache.kafka.common.serialization.StringSerializer</keySerializer>
-  <valueSerializer>org.apache.kafka.common.serialization.LongSerializer</valueSerializer>
+  <valueSerializer>org.springframework.kafka.support.serializer.JsonSerializer</valueSerializer>
   <topic>movies</topic>
 </producer>

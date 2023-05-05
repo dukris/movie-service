@@ -1,5 +1,6 @@
 package com.solvd.movie.service;
 
+import com.solvd.movie.domain.EsMovie;
 import com.solvd.movie.domain.PgMovie;
 import com.solvd.movie.domain.criteria.SearchCriteria;
 import reactor.core.publisher.Flux;
@@ -15,6 +16,10 @@ public interface MovieService {
 
     Mono<PgMovie> create(PgMovie movie);
 
-    void delete(Long movieId);
+    Mono<EsMovie> replicateCreate(EsMovie movie);
+
+    Mono<Void> delete(Long movieId);
+
+    Mono<Void> replicateDelete(Long movieId);
 
 }
