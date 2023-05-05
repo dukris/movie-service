@@ -1,6 +1,6 @@
 package com.solvd.movie.kafka.consumer;
 
-import com.solvd.movie.domain.Event;
+import com.solvd.movie.model.Event;
 import com.solvd.movie.kafka.parser.Parser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

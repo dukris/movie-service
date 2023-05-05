@@ -1,6 +1,6 @@
 package com.solvd.movie.web.controller;
 
-import com.solvd.movie.domain.exception.ResourceNotFoundException;
+import com.solvd.movie.model.exception.ResourceNotFoundException;
 import com.solvd.movie.web.dto.ExceptionDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

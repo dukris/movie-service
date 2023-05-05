@@ -1,8 +1,10 @@
 package com.solvd.movie.web.controller;
 
-import com.solvd.movie.domain.PgMovie;
-import com.solvd.movie.domain.criteria.SearchCriteria;
-import com.solvd.movie.service.MovieService;
+import com.solvd.movie.model.EsMovie;
+import com.solvd.movie.model.PgMovie;
+import com.solvd.movie.model.criteria.SearchCriteria;
+import com.solvd.movie.service.EsMovieService;
+import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
 import com.solvd.movie.web.dto.criteria.SearchCriteriaDto;
@@ -22,10 +24,11 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
-    private final MovieService movieService;
-    private final MovieMapper movieMapper;
+    private final PgMovieService pgMovieService;
+    private final EsMovieService esMovieService;
     private final WebClient.Builder webClientBuilder;
     private final SearchCriteriaMapper criteriaMapper;
+    private final MovieMapper movieMapper;
 
     @Value("${services.review-url}")
     private String reviewUrl;
@@ -34,20 +37,20 @@ public class MovieController {
     public Flux<MovieDto> getAllByCriteria(
             final SearchCriteriaDto criteriaDto) {
         SearchCriteria criteria = this.criteriaMapper.toEntity(criteriaDto);
-        Flux<PgMovie> movies = this.movieService
+        Flux<EsMovie> movies = this.esMovieService
                 .retrieveAllByCriteria(criteria);
         return movies.map(this.movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
     public Mono<MovieDto> getById(@PathVariable final Long movieId) {
-        Mono<PgMovie> movie = this.movieService.retrieveById(movieId);
+        Mono<PgMovie> movie = this.pgMovieService.retrieveById(movieId);
         return movie.map(this.movieMapper::toDto);
     }
 
     @GetMapping("/exists/{movieId}")
     public Mono<Boolean> isExist(@PathVariable final Long movieId) {
-        return this.movieService.isExist(movieId);
+        return this.pgMovieService.isExist(movieId);
     }
 
     @GetMapping("/{movieId}/reviews")
@@ -64,14 +67,22 @@ public class MovieController {
     public Mono<MovieDto> create(
             @Validated @RequestBody final MovieDto movieDto) {
         PgMovie movie = this.movieMapper.toEntity(movieDto);
-        Mono<PgMovie> movieMono = this.movieService.create(movie);
+        Mono<PgMovie> movieMono = this.pgMovieService.create(movie);
+        return movieMono.map(this.movieMapper::toDto);
+    }
+
+    @PutMapping("/{movieId}")
+    public Mono<MovieDto> update(@PathVariable final String movieId,
+            @Validated @RequestBody final MovieDto movieDto) {
+        PgMovie movie = this.movieMapper.toEntity(movieDto);
+        Mono<PgMovie> movieMono = this.pgMovieService.update(movie);
         return movieMono.map(this.movieMapper::toDto);
     }
 
     @DeleteMapping("/{movieId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> delete(@PathVariable final Long movieId) {
-        return this.movieService.delete(movieId);
+        return this.pgMovieService.delete(movieId);
     }
 
 }

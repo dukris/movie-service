@@ -2,7 +2,7 @@ package com.solvd.movie.kafka.parser.impl;
 
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
-import com.solvd.movie.domain.exception.ParsingException;
+import com.solvd.movie.model.exception.ParsingException;
 import com.solvd.movie.kafka.parser.Parser;
 import org.springframework.stereotype.Component;
 

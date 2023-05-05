@@ -1,4 +1,4 @@
-package com.solvd.movie.domain.exception;
+package com.solvd.movie.model.exception;
 
 public class IllegalActionException extends RuntimeException {
 

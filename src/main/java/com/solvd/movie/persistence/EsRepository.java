@@ -1,6 +1,6 @@
 package com.solvd.movie.persistence;
 
-import com.solvd.movie.domain.EsMovie;
+import com.solvd.movie.model.EsMovie;
 import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository;
 import reactor.core.publisher.Flux;
 

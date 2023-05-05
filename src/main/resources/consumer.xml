@@ -4,6 +4,6 @@
   <groupId>group1</groupId>
   <keyDeserializer>org.apache.kafka.common.serialization.StringDeserializer</keyDeserializer>
   <valueDeserializer>org.springframework.kafka.support.serializer.JsonDeserializer</valueDeserializer>
-  <valueDefaultType>com.solvd.movie.domain.Event</valueDefaultType>
+  <valueDefaultType>com.solvd.movie.model.Event</valueDefaultType>
   <topic>movies</topic>
 </consumer>

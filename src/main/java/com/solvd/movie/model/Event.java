@@ -1,4 +1,4 @@
-package com.solvd.movie.domain;
+package com.solvd.movie.model;
 
 import lombok.Data;
 
@@ -11,6 +11,7 @@ public class Event {
     public enum Action {
 
         CREATE_MOVIE,
+        UPDATE_MOVIE,
         DELETE_MOVIE,
         DELETE_REVIEW
 

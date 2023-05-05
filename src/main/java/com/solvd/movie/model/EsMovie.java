@@ -1,21 +1,21 @@
-package com.solvd.movie.domain;
-
+package com.solvd.movie.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
-@Table(name = "movies")
+@Document(indexName = "movies")
 @NoArgsConstructor
 @AllArgsConstructor
-public class PgMovie {
+public class EsMovie {
 
     @Id
     private Long id;
     private String name;
     private String description;
     private Integer year;
+
 }

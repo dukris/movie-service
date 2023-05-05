@@ -1,4 +1,4 @@
-package com.solvd.movie.domain.criteria;
+package com.solvd.movie.model.criteria;
 
 import lombok.Data;
 
