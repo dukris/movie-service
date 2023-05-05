@@ -34,7 +34,8 @@ public class MovieController {
     public Flux<MovieDto> getAllByCriteria(
             final SearchCriteriaDto criteriaDto) {
         SearchCriteria criteria = this.criteriaMapper.toEntity(criteriaDto);
-        Flux<PgMovie> movies = this.movieService.retrieveAllByCriteria(criteria);
+        Flux<PgMovie> movies = this.movieService
+                .retrieveAllByCriteria(criteria);
         return movies.map(this.movieMapper::toDto);
     }
 

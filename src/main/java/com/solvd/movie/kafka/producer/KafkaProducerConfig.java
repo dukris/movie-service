@@ -30,12 +30,14 @@ public class KafkaProducerConfig {
     @Bean
     public Map<String, Object> senderOptions() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, this.parser.getValue(
-                this.filename, "keySerializer")
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                this.bootstrapServers
         );
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, this.parser.getValue(
-                this.filename, "valueSerializer")
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                this.parser.getValue(this.filename, "keySerializer")
+        );
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                this.parser.getValue(this.filename, "valueSerializer")
         );
 
         return props;

@@ -29,22 +29,23 @@ public class KafkaConsumerConfig {
     @Bean
     public ReceiverOptions<String, Event> receiverOptions() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, this.parser.getValue(
-                "consumer.xml", "groupId")
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                this.bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG,
+                this.parser.getValue("consumer.xml", "groupId")
         );
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, this.parser.getValue(
-                "consumer.xml", "keyDeserializer")
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                this.parser.getValue("consumer.xml", "keyDeserializer")
         );
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, this.parser.getValue(
-                "consumer.xml", "valueDeserializer")
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                this.parser.getValue("consumer.xml", "valueDeserializer")
         );
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, this.parser.getValue(
-                "consumer.xml", "valueDefaultType")
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE,
+                this.parser.getValue("consumer.xml", "valueDefaultType")
         );
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
-        ReceiverOptions<String, Event> receiverOptions = ReceiverOptions.create(props);
-        return receiverOptions
+        ReceiverOptions<String, Event> options = ReceiverOptions.create(props);
+        return options
                 .subscription(Collections.singleton(
                         this.parser.getValue("consumer.xml", "topic")))
                 .addAssignListener(receiverPartitions ->

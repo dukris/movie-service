@@ -140,9 +140,7 @@
         <version>${maven-checkstyle-plugin.version}</version>
         <configuration>
           <configLocation>checkstyle.xml</configLocation>
-          <sourceDirectories>
-            <sourceDirectory>com.solvd.movie</sourceDirectory>
-          </sourceDirectories>
+          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
         </configuration>
         <executions>
           <execution>

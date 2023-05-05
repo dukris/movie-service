@@ -89,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Mono<EsMovie> replicateCreate(EsMovie movie) {
+    public Mono<EsMovie> replicateCreate(final EsMovie movie) {
         return this.esRepository.save(movie);
     }
 
@@ -107,7 +107,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Mono<Void> replicateDelete(Long movieId) {
+    public Mono<Void> replicateDelete(final Long movieId) {
         return this.esRepository.deleteById(movieId);
     }
 
