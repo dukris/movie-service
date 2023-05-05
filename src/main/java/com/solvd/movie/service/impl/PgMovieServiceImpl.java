@@ -10,6 +10,7 @@ import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -46,6 +47,7 @@ public class PgMovieServiceImpl implements PgMovieService {
     }
 
     @Override
+    @Transactional
     public Mono<PgMovie> create(final PgMovie movie) {
         return this.pgRepository.save(movie)
                 .flatMap(pgMovie -> {
@@ -59,6 +61,7 @@ public class PgMovieServiceImpl implements PgMovieService {
     }
 
     @Override
+    @Transactional
     public Mono<PgMovie> update(final PgMovie movie) {
         return this.pgRepository.save(movie)
                 .flatMap(pgMovie -> {
@@ -72,6 +75,7 @@ public class PgMovieServiceImpl implements PgMovieService {
     }
 
     @Override
+    @Transactional
     public Mono<Void> delete(final Long movieId) {
         EsMovie movie = new EsMovie();
         movie.setId(movieId);
