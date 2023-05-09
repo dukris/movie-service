@@ -1,0 +1,15 @@
+version: '3'
+services:
+  elasticsearch:
+    image: elasticsearch:8.5.3
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - movie
+networks:
+  movie:
+    driver: bridge
