@@ -19,7 +19,7 @@ public class KafkaConsumer {
     private final EsMovieService esMovieService;
 
     @PostConstruct
-    private void receive() {
+    public void receive() {
         this.kafkaReceiver.receive()
                 .subscribe(record -> {
                     ReceiverOffset offset = record.receiverOffset();
