@@ -1,9 +1,11 @@
 package com.solvd.movie.web.dto;
 
-public record ExceptionDto(
+import lombok.AllArgsConstructor;
 
-        String field,
-        String message
+@AllArgsConstructor
+public class ExceptionDto {
 
-) {
+    private final String field;
+    private final String message;
+
 }

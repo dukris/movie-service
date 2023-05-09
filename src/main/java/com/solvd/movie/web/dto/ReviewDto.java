@@ -1,14 +1,16 @@
 package com.solvd.movie.web.dto;
 
+import lombok.AllArgsConstructor;
+
 import java.time.LocalDate;
 
-public record ReviewDto(
+@AllArgsConstructor
+public class ReviewDto {
 
-        Long id,
-        String name,
-        String text,
-        LocalDate date,
-        Long movieId
+    private final Long id;
+    private final String name;
+    private final String text;
+    private final LocalDate date;
+    private final Long movieId;
 
-) {
 }

@@ -1,9 +1,11 @@
 package com.solvd.movie.web.dto.criteria;
 
-public record SearchCriteriaDto (
+import lombok.AllArgsConstructor;
 
-        String name,
-        Integer year
+@AllArgsConstructor
+public class SearchCriteriaDto {
 
-) {
+    private final String name;
+    private final Integer year;
+
 }
