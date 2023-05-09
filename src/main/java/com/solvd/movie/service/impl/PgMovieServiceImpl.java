@@ -37,7 +37,7 @@ public class PgMovieServiceImpl implements PgMovieService {
                                 )
                         );
                     }
-                    return this.pgRepository.findById(movieId);
+                    return Mono.justOrEmpty(optionalMovie);
                 });
     }
 
@@ -63,15 +63,27 @@ public class PgMovieServiceImpl implements PgMovieService {
     @Override
     @Transactional
     public Mono<PgMovie> update(final PgMovie movie) {
-        return this.pgRepository.save(movie)
-                .flatMap(pgMovie -> {
-                            Event event = new Event();
-                            event.setAction(Event.Action.UPDATE_MOVIE);
-                            event.setMovie(this.movieMapper.toEntity(pgMovie));
-                            this.kafkaProducer.send(event);
-                            return Mono.just(pgMovie);
-                        }
-                );
+        return this.pgRepository.findById(movie.getId())
+                .flatMap(foundMovie -> {
+                    foundMovie.setName(movie.getName());
+                    foundMovie.setDescription(movie.getDescription());
+                    foundMovie.setYear(movie.getYear());
+                    return this.pgRepository.save(foundMovie)
+                            .flatMap(pgMovie -> {
+                                        Event event = new Event();
+                                        event.setAction(
+                                                Event.Action.UPDATE_MOVIE
+                                        );
+                                        event.setMovie(
+                                                this.movieMapper.toEntity(
+                                                        pgMovie
+                                                )
+                                        );
+                                        this.kafkaProducer.send(event);
+                                        return Mono.just(pgMovie);
+                                    }
+                            );
+                });
     }
 
     @Override

@@ -17,7 +17,7 @@ public class PersistenceConfig extends ReactiveElasticsearchConfiguration {
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-                .connectedTo(url)
+                .connectedTo(this.url)
                 .build();
     }
 
