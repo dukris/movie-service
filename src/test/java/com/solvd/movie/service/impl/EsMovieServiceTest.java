@@ -16,6 +16,8 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 public class EsMovieServiceTest {
 
+    private final FakeMovieService fakeMovieService = new FakeMovieService();
+
     @Mock
     private EsRepository esRepository;
 
@@ -24,11 +26,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAll() {
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         Mockito.when(this.esRepository.findAll())
                 .thenReturn(Flux.just(movie));
         Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
@@ -42,11 +40,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByYear() {
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setYear(2023);
         Mockito.when(this.esRepository.findAllByYear(movie.getYear()))
@@ -62,11 +56,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByName() {
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
         Mockito.when(this.esRepository.findAllByName(movie.getName()))
@@ -82,11 +72,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByNameAndeYear() {
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
         criteria.setYear(2023);
@@ -106,11 +92,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void create() {
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         Mockito.when(this.esRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
@@ -122,11 +104,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void update(){
-        EsMovie movie = new EsMovie();
-        movie.setId(1L);
-        movie.setName("Name");
-        movie.setDescription("Description");
-        movie.setYear(2023);
+        EsMovie movie = this.fakeMovieService.getEsMovie();
         Mockito.when(this.esRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.esRepository.findById(movie.getId()))
