@@ -20,8 +20,7 @@ jobs:
           restore-keys: |
             maven-
       - run: |
-          mvn clean package
-          mvn verify
+          mvn clean install
       - uses: codecov/codecov-action@v3
         with:
           files: ./target/site/jacoco/jacoco.xml
