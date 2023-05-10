@@ -195,7 +195,7 @@
             <configuration>
               <rules>
                 <rule>
-                  <element>BUNDLE</element>
+                  <element>PACKAGE</element>
                   <includes>
                     <include>com.solvd.movie.service.impl.**</include>
                   </includes>
