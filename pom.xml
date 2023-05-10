@@ -28,7 +28,7 @@
     <maven-checkstyle-plugin.version>3.2.2</maven-checkstyle-plugin.version>
     <com.jcabi.version>0.27.2</com.jcabi.version>
     <org.mockito.version>5.0.0</org.mockito.version>
-    <org.jacoco.version>0.8.8</org.jacoco.version>
+    <org.jacoco.version>0.8.10</org.jacoco.version>
     <reactor-test.version>3.2.3.RELEASE</reactor-test.version>
   </properties>
   <dependencies>
