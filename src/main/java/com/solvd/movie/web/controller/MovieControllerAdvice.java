@@ -62,7 +62,7 @@ public class MovieControllerAdvice {
         return new JsonError(
                 new RsError.WithCode(
                         "Please, try later!",
-                        500
+                        503
                 )
         ).content();
     }
