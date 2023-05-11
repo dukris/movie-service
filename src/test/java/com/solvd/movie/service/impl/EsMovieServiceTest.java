@@ -24,7 +24,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAll() {
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.findAll())
                 .thenReturn(Flux.just(movie));
         Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
@@ -38,7 +38,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByYear() {
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setYear(2023);
         Mockito.when(this.esMovieRepository.findAllByYear(movie.getYear()))
@@ -54,7 +54,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByName() {
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
         Mockito.when(this.esMovieRepository.findAllByName(movie.getName()))
@@ -70,7 +70,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void retrieveAllByNameAndeYear() {
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
         criteria.setYear(2023);
@@ -90,7 +90,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void create() {
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
@@ -102,7 +102,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void update(){
-        EsMovie movie = FakeMovieService.getEsMovie();
+        EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.esMovieRepository.findById(movie.getId()))

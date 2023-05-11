@@ -34,7 +34,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void retrieveByCorrectId() {
-        PgMovie movie = FakeMovieService.getPgMovie();
+        PgMovie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mono<PgMovie> foundMovie = this.pgMovieService.retrieveById(
@@ -71,7 +71,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void create() {
-        PgMovie movie = FakeMovieService.getPgMovie();
+        PgMovie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.movieMapper.toEntity(movie))
@@ -85,7 +85,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void update() {
-        PgMovie movie = FakeMovieService.getPgMovie();
+        PgMovie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.pgMovieRepository.save(movie))

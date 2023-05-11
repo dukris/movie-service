@@ -3,7 +3,7 @@ package com.solvd.movie.service.impl;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.PgMovie;
 
-public final class FakeMovieService {
+public final class MovieFactory {
 
     public static EsMovie getEsMovie(){
         EsMovie movie = new EsMovie();
