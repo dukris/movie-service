@@ -1,16 +1,16 @@
 package com.solvd.movie.model;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Getter
-@Setter
+/**
+ * Movie entity for Postgresql
+ */
+
+@Data
 @Table(name = "movies")
-@NoArgsConstructor
 public class PgMovie {
 
     @Id

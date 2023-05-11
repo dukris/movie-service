@@ -4,7 +4,7 @@ import com.solvd.movie.model.EsMovie;
 import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository;
 import reactor.core.publisher.Flux;
 
-public interface EsRepository
+public interface EsMovieRepository
         extends ReactiveElasticsearchRepository<EsMovie, Long> {
 
     Flux<EsMovie> findAllByName(String name);

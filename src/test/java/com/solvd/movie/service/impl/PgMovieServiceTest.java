@@ -4,7 +4,7 @@ import com.solvd.movie.kafka.producer.KafkaProducer;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.PgMovie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
-import com.solvd.movie.persistence.PgRepository;
+import com.solvd.movie.persistence.PgMovieRepository;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +20,8 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PgMovieServiceTest {
 
-    private final FakeMovieService fakeMovieService = new FakeMovieService();
-
     @Mock
-    private PgRepository pgRepository;
+    private PgMovieRepository pgMovieRepository;
 
     @Mock
     private KafkaProducer kafkaProducer;
@@ -36,8 +34,8 @@ public class PgMovieServiceTest {
 
     @Test
     public void retrieveByCorrectId() {
-        PgMovie movie = this.fakeMovieService.getPgMovie();
-        Mockito.when(this.pgRepository.findById(movie.getId()))
+        PgMovie movie = FakeMovieService.getPgMovie();
+        Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mono<PgMovie> foundMovie = this.pgMovieService.retrieveById(
                 movie.getId()
@@ -51,7 +49,7 @@ public class PgMovieServiceTest {
     @Test
     public void retrieveByIncorrectId() {
         Long movieId = 1L;
-        Mockito.when(this.pgRepository.findById(movieId))
+        Mockito.when(this.pgMovieRepository.findById(movieId))
                 .thenReturn(Mono.justOrEmpty(Optional.empty()));
         Mono<PgMovie> foundMovie = this.pgMovieService.retrieveById(movieId);
         StepVerifier.create(foundMovie)
@@ -62,7 +60,7 @@ public class PgMovieServiceTest {
     @Test
     public void isExist() {
         Long movieId = 1L;
-        Mockito.when(this.pgRepository.existsById(movieId))
+        Mockito.when(this.pgMovieRepository.existsById(movieId))
                 .thenReturn(Mono.just(true));
         Mono<Boolean> result = this.pgMovieService.isExist(movieId);
         StepVerifier.create(result)
@@ -73,8 +71,8 @@ public class PgMovieServiceTest {
 
     @Test
     public void create() {
-        PgMovie movie = this.fakeMovieService.getPgMovie();
-        Mockito.when(this.pgRepository.save(movie))
+        PgMovie movie = FakeMovieService.getPgMovie();
+        Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.movieMapper.toEntity(movie))
                 .thenReturn(new EsMovie());
@@ -87,10 +85,10 @@ public class PgMovieServiceTest {
 
     @Test
     public void update() {
-        PgMovie movie = this.fakeMovieService.getPgMovie();
-        Mockito.when(this.pgRepository.findById(movie.getId()))
+        PgMovie movie = FakeMovieService.getPgMovie();
+        Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
-        Mockito.when(this.pgRepository.save(movie))
+        Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.movieMapper.toEntity(movie))
                 .thenReturn(new EsMovie());
@@ -104,7 +102,7 @@ public class PgMovieServiceTest {
     @Test
     public void delete() {
         Long movieId = 1L;
-        Mockito.when(this.pgRepository.deleteById(movieId))
+        Mockito.when(this.pgMovieRepository.deleteById(movieId))
                 .thenReturn(Mono.empty());
         Mono<Void> result = this.pgMovieService.delete(movieId);
         StepVerifier.create(result)

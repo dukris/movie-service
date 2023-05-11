@@ -6,11 +6,14 @@ import com.solvd.movie.web.dto.MovieDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface MovieMapper
-        extends com.solvd.movie.web.dto.mapper.Mapper<PgMovie, MovieDto> {
+public interface MovieMapper {
 
-    EsMovie toEntity(PgMovie movie);
+    PgMovie toEntity(MovieDto dto);
 
-    MovieDto toDto(EsMovie movie);
+    EsMovie toEntity(PgMovie entity);
+
+    MovieDto toDto(EsMovie entity);
+
+    MovieDto toDto(PgMovie entity);
 
 }

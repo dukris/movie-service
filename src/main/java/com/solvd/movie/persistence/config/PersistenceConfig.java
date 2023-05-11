@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableReactiveEl
 public class PersistenceConfig extends ReactiveElasticsearchConfiguration {
 
     @Value("${spring.elasticsearch.rest.uris}")
-    String url;
+    private String url;
 
     @Override
     public ClientConfiguration clientConfiguration() {

@@ -5,7 +5,7 @@ import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.Event;
 import com.solvd.movie.model.PgMovie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
-import com.solvd.movie.persistence.PgRepository;
+import com.solvd.movie.persistence.PgMovieRepository;
 import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PgMovieServiceImpl implements PgMovieService {
 
-    private final PgRepository pgRepository;
+    private final PgMovieRepository pgMovieRepository;
     private final KafkaProducer kafkaProducer;
     private final MovieMapper movieMapper;
 
     @Override
     public Mono<PgMovie> retrieveById(final Long movieId) {
-        return this.pgRepository.findById(movieId)
+        return this.pgMovieRepository.findById(movieId)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
                 .flatMap(optionalMovie -> {
@@ -43,13 +43,13 @@ public class PgMovieServiceImpl implements PgMovieService {
 
     @Override
     public Mono<Boolean> isExist(final Long movieId) {
-        return this.pgRepository.existsById(movieId);
+        return this.pgMovieRepository.existsById(movieId);
     }
 
     @Override
     @Transactional
     public Mono<PgMovie> create(final PgMovie movie) {
-        return this.pgRepository.save(movie)
+        return this.pgMovieRepository.save(movie)
                 .flatMap(pgMovie -> {
                             Event event = new Event();
                             event.setAction(Event.Action.CREATE_MOVIE);
@@ -63,12 +63,12 @@ public class PgMovieServiceImpl implements PgMovieService {
     @Override
     @Transactional
     public Mono<PgMovie> update(final PgMovie movie) {
-        return this.pgRepository.findById(movie.getId())
+        return this.pgMovieRepository.findById(movie.getId())
                 .flatMap(foundMovie -> {
                     foundMovie.setName(movie.getName());
                     foundMovie.setDescription(movie.getDescription());
                     foundMovie.setYear(movie.getYear());
-                    return this.pgRepository.save(foundMovie)
+                    return this.pgMovieRepository.save(foundMovie)
                             .flatMap(pgMovie -> {
                                         Event event = new Event();
                                         event.setAction(
@@ -95,7 +95,7 @@ public class PgMovieServiceImpl implements PgMovieService {
         event.setAction(Event.Action.DELETE_REVIEW);
         event.setMovie(movie);
         this.kafkaProducer.send(event);
-        return this.pgRepository.deleteById(movieId);
+        return this.pgMovieRepository.deleteById(movieId);
     }
 
 }

@@ -5,8 +5,10 @@ import com.solvd.movie.web.dto.criteria.SearchCriteriaDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface SearchCriteriaMapper
-        extends com.solvd.movie.web.dto.mapper.Mapper<SearchCriteria,
-        SearchCriteriaDto> {
+public interface SearchCriteriaMapper {
+
+    SearchCriteria toEntity(SearchCriteriaDto dto);
+
+    SearchCriteriaDto toDto(SearchCriteria entity);
 
 }

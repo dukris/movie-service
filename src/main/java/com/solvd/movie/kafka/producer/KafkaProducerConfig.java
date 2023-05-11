@@ -44,13 +44,13 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaSender<String, Event> esKafkaSender() {
+    public KafkaSender<String, Event> kafkaSender() {
         this.filename = "producer.xml";
         return KafkaSender.create(SenderOptions.create(this.senderOptions()));
     }
 
     @Bean
-    public NewTopic esTopic() {
+    public NewTopic topic() {
         return TopicBuilder.name(
                         this.parser.getValue("producer.xml", "topic"))
                 .partitions(2)

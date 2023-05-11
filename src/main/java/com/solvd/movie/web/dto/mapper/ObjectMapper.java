@@ -1,6 +1,6 @@
 package com.solvd.movie.web.dto.mapper;
 
-public interface Mapper<Entity, Dto>{
+public interface ObjectMapper<Entity, Dto>{
 
     Entity toEntity(Dto dto);
 
