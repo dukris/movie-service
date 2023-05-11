@@ -42,7 +42,7 @@ public class MovieControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<JsonError> handleMethodArgumentNotValidException(
+    public List<String> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException ex) {
         return ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> new JsonError(
@@ -50,7 +50,7 @@ public class MovieControllerAdvice {
                                         error.getDefaultMessage(),
                                         400
                                 )
-                        )
+                        ).content()
                 )
                 .toList();
     }
