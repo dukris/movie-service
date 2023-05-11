@@ -53,7 +53,6 @@ public class KafkaProducerConfig {
     public NewTopic topic() {
         return TopicBuilder.name(
                         this.parser.getValue("producer.xml", "topic"))
-                .partitions(2)
                 .build();
     }
 
