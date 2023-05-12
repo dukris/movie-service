@@ -1,6 +1,7 @@
 package com.solvd.movie.service.impl;
 
 import com.solvd.movie.kafka.producer.KafkaProducer;
+import com.solvd.movie.model.Action;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.Event;
 import com.solvd.movie.model.PgMovie;
@@ -52,7 +53,7 @@ public class PgMovieServiceImpl implements PgMovieService {
         return this.pgMovieRepository.save(movie)
                 .flatMap(pgMovie -> {
                             Event event = new Event();
-                            event.setAction(Event.Action.CREATE_MOVIE);
+                            event.setAction(Action.CREATE_MOVIE);
                             event.setMovie(this.movieMapper.toEntity(pgMovie));
                             this.kafkaProducer.send(event);
                             return Mono.just(pgMovie);
@@ -72,7 +73,7 @@ public class PgMovieServiceImpl implements PgMovieService {
                             .flatMap(pgMovie -> {
                                         Event event = new Event();
                                         event.setAction(
-                                                Event.Action.UPDATE_MOVIE
+                                                Action.UPDATE_MOVIE
                                         );
                                         event.setMovie(
                                                 this.movieMapper.toEntity(
@@ -92,7 +93,7 @@ public class PgMovieServiceImpl implements PgMovieService {
         EsMovie movie = new EsMovie();
         movie.setId(movieId);
         Event event = new Event();
-        event.setAction(Event.Action.DELETE_REVIEW);
+        event.setAction(Action.DELETE_MOVIE);
         event.setMovie(movie);
         this.kafkaProducer.send(event);
         return this.pgMovieRepository.deleteById(movieId);

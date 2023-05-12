@@ -22,7 +22,7 @@ public class KafkaProducer {
                         this.parser.getValue("producer.xml", "topic"),
                         0,
                         System.currentTimeMillis(),
-                        event.getAction().toString(),
+                        event.getAction().getName(),
                         event,
                         null))
                 )

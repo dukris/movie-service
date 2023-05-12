@@ -1,8 +1,7 @@
 package com.solvd.movie.kafka.consumer;
 
 import com.solvd.movie.model.Event;
-import com.solvd.movie.model.exception.IllegalActionException;
-import com.solvd.movie.service.EsMovieService;
+import com.solvd.movie.service.kafka.EventHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import reactor.kafka.receiver.ReceiverOffset;
 public class KafkaConsumer {
 
     private final KafkaReceiver<String, Event> kafkaReceiver;
-    private final EsMovieService esMovieService;
+    private final EventHandler eventHandler;
 
     @PostConstruct
     public void receive() {
@@ -25,20 +24,7 @@ public class KafkaConsumer {
                     ReceiverOffset offset = record.receiverOffset();
                     Event event = record.value();
                     log.info("Received event: " + event.toString());
-                    switch (event.getAction()) {
-                        case CREATE_MOVIE -> this.esMovieService.create(
-                                event.getMovie()
-                        ).subscribe();
-                        case UPDATE_MOVIE -> this.esMovieService.update(
-                                event.getMovie()
-                        ).subscribe();
-                        case DELETE_MOVIE -> this.esMovieService.delete(
-                                event.getMovie().getId()
-                        ).subscribe();
-                        default -> throw new IllegalActionException(
-                                "Wrong action!"
-                        );
-                    }
+                    this.eventHandler.receive(event).subscribe();
                     offset.acknowledge();
                 });
     }
