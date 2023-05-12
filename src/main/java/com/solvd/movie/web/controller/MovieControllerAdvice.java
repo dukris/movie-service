@@ -1,7 +1,8 @@
 package com.solvd.movie.web.controller;
 
-import com.solvd.movie.domain.exception.ResourceNotFoundException;
-import com.solvd.movie.web.dto.ExceptionDto;
+import com.solvd.movie.model.exception.ResourceNotFoundException;
+import io.github.eocqrs.rs.RsError;
+import io.github.eocqrs.rs.json.JsonError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,29 +19,52 @@ public class MovieControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionDto handleResourceNotFoundException(ResourceNotFoundException ex) {
-        return new ExceptionDto(null, ex.getMessage());
+    public String handleResourceNotFoundException(
+            final ResourceNotFoundException ex) {
+        return new JsonError(
+                new RsError.WithCode(
+                        ex.getMessage(),
+                        404
+                )
+        ).content();
     }
 
     @ExceptionHandler(IOException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionDto handleIOException(IOException ex) {
-        return new ExceptionDto(null, ex.getMessage());
+    public String handleIOException(final IOException ex) {
+        return new JsonError(
+                new RsError.WithCode(
+                        ex.getMessage(),
+                        400
+                )
+        ).content();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ExceptionDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public List<String> handleMethodArgumentNotValidException(
+            final MethodArgumentNotValidException ex) {
         return ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> new ExceptionDto(error.getObjectName() + "." + error.getField(), error.getDefaultMessage()))
+                .map(error -> new JsonError(
+                                new RsError.WithCode(
+                                        error.getDefaultMessage(),
+                                        400
+                                )
+                        ).content()
+                )
                 .toList();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionDto handleOtherExceptions(Exception ex) {
+    public String handleOtherExceptions(final Exception ex) {
         log.error(ex.getMessage(), ex);
-        return new ExceptionDto(null, "Please, try later!");
+        return new JsonError(
+                new RsError.WithCode(
+                        "Please, try later!",
+                        503
+                )
+        ).content();
     }
 
 }

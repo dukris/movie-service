@@ -1,18 +1,15 @@
 package com.solvd.movie.web.dto.mapper;
 
-import com.solvd.movie.domain.Movie;
+import com.solvd.movie.model.EsMovie;
+import com.solvd.movie.model.PgMovie;
 import com.solvd.movie.web.dto.MovieDto;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface MovieMapper {
+public interface MovieMapper extends ObjectMapper<PgMovie, MovieDto>{
 
-    Movie toEntity(MovieDto movieDto);
+    EsMovie toEntity(PgMovie entity);
 
-    MovieDto toDto(Movie movie);
-
-    List<MovieDto> toDto(List<Movie> movies);
+    MovieDto toDto(EsMovie entity);
 
 }

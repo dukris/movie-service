@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public record MovieDto(
-
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         Long id,
 
@@ -17,9 +16,7 @@ public record MovieDto(
         @NotBlank(message = "Description can't be blank!")
         String description,
 
-        @Positive
-        @NotNull(message = "Year can't be empty!")
+        @Positive @NotNull(message = "Year can't be empty!")
         Integer year
-
 ) {
 }

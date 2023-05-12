@@ -1,11 +1,11 @@
 package com.solvd.movie.persistence;
 
 
-import com.solvd.movie.domain.Movie;
+import com.solvd.movie.model.PgMovie;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import reactor.core.publisher.Mono;
 
-public interface MovieRepository extends R2dbcRepository<Movie, Long> {
+public interface PgMovieRepository extends R2dbcRepository<PgMovie, Long> {
 
     Mono<Boolean> existsById(Long id);
 
