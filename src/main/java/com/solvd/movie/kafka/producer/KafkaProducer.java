@@ -1,15 +1,13 @@
 package com.solvd.movie.kafka.producer;
 
-import com.solvd.movie.model.Event;
 import com.solvd.movie.kafka.parser.Parser;
+import com.solvd.movie.model.Event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderRecord;
-
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -24,7 +22,7 @@ public class KafkaProducer {
                         this.parser.getValue("producer.xml", "topic"),
                         0,
                         System.currentTimeMillis(),
-                        UUID.randomUUID().toString(),
+                        event.getAction().toString(),
                         event,
                         null))
                 )
