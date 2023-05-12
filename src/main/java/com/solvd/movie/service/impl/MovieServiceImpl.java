@@ -25,7 +25,8 @@ public class MovieServiceImpl implements MovieService {
     private final MovieMapper movieMapper;
 
     @Override
-    public Flux<Movie> retrieveAllByCriteria(SearchCriteria searchCriteria) {
+    public Flux<Movie> retrieveAllByCriteria(
+            final SearchCriteria searchCriteria) {
         return this.esMovieService.retrieveAllByCriteria(searchCriteria)
                 .flatMap(esMovie ->
                         this.pgMovieService.retrieveById(esMovie.getId())
@@ -33,17 +34,17 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Mono<Movie> retrieveById(Long movieId) {
+    public Mono<Movie> retrieveById(final Long movieId) {
         return this.pgMovieService.retrieveById(movieId);
     }
 
     @Override
-    public Mono<Boolean> isExist(Long movieId) {
+    public Mono<Boolean> isExist(final Long movieId) {
         return this.pgMovieService.isExist(movieId);
     }
 
     @Override
-    public Mono<Movie> create(Movie movie) {
+    public Mono<Movie> create(final Movie movie) {
         return this.pgMovieService.create(movie)
                 .flatMap(pgMovie -> {
                             Event event = new Event();
@@ -56,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Mono<Movie> update(Movie movie) {
+    public Mono<Movie> update(final Movie movie) {
         return this.pgMovieService.update(movie)
                 .flatMap(pgMovie -> {
                             Event event = new Event();
@@ -69,7 +70,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Mono<Void> delete(Long movieId) {
+    public Mono<Void> delete(final Long movieId) {
         EsMovie movie = new EsMovie();
         movie.setId(movieId);
         Event event = new Event();
