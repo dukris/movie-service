@@ -1,20 +1,21 @@
 package com.solvd.movie.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
- * Movie entity for Elasticsearch
+ * Full movie entity
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(indexName = "movies")
-public class EsMovie {
+@Table(name = "movies")
+public class Movie {
 
     @Id
     private Long id;
@@ -24,5 +25,6 @@ public class EsMovie {
     private String genre;
     private String language;
     private String quality;
+    private String description;
 
 }
