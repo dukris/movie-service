@@ -14,7 +14,7 @@ public class DeleteMovieHandler implements ActionHandler {
     private final EsMovieService esMovieService;
 
     @Override
-    public Mono<Void> process(Event event) {
+    public Mono<Void> process(final Event event) {
         return this.esMovieService.delete(event.getMovie().getId()).then();
     }
 
