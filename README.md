@@ -2,7 +2,9 @@
 This is a reactive part of simple "Movie App" that contains movie microservice. In this app user can leave reviews for movies.
 
 ## Glossary
-Movie - information about movie
+`Movie` - full information about movie.
+
+`EsMovie` - information about movie for Elasticsearch.
 
 ## Implemented pattern
 ### Service registry
@@ -10,3 +12,4 @@ The *service registry pattern* is a key part of service discovery. The registry 
 
 ## Apache Kafka
 Reactive producer is implemented as a part of Reactor Kafka. The producer sends messages to the consumer from other microservice (see [ReviewMicroservice](https://github.com/hizmailovich/ReviewMicroservice)). The main goal of this implementation is to simplify communication between microservices: if the movie is deleted, all reviews for this movie should be deleted too.
+Also reactive consumer is added for sync Elasticsearch with Postgresql.
