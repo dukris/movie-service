@@ -39,7 +39,6 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 this.parser.getValue(this.filename, "valueSerializer")
         );
-
         return props;
     }
 
