@@ -13,7 +13,7 @@ public final class MovieFactory {
         return movie;
     }
 
-    public static Movie getPgMovie(){
+    public static Movie getMovie(){
         Movie movie = new Movie();
         movie.setId(1L);
         movie.setName("Name");

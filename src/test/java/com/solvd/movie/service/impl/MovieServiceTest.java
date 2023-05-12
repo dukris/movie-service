@@ -38,7 +38,7 @@ public class MovieServiceTest {
     @Test
     public void verifyRetrieveAllByCriteria() {
         EsMovie esMovie = MovieFactory.getEsMovie();
-        Movie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getMovie();
         SearchCriteria criteria = new SearchCriteria();
         Mockito.when(this.esMovieService.retrieveAllByCriteria(criteria))
                 .thenReturn(Flux.just(esMovie));
@@ -53,7 +53,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifyRetrieveById() {
-        Movie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getMovie();
         Mockito.when(this.pgMovieService.retrieveById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> foundMovie = this.movieService.retrieveById(movie.getId());
@@ -77,7 +77,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifyCreate() {
-        Movie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getMovie();
         Mockito.when(this.pgMovieService.create(movie))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> createdMovie = this.movieService.create(movie);
@@ -89,7 +89,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifyUpdate() {
-        Movie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getMovie();
         Mockito.when(this.pgMovieService.update(movie))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> updatedMovie = this.movieService.update(movie);
