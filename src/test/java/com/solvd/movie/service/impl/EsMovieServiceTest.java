@@ -23,7 +23,7 @@ public class EsMovieServiceTest {
     private EsMovieServiceImpl esMovieService;
 
     @Test
-    public void retrieveAll() {
+    public void verifyRetrieveAll() {
         EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.findAll())
                 .thenReturn(Flux.just(movie));
@@ -37,7 +37,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void retrieveAllByYear() {
+    public void verifyRetrieveAllByYear() {
         EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setYear(2023);
@@ -53,7 +53,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void retrieveAllByName() {
+    public void verifyRetrieveAllByName() {
         EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
@@ -69,7 +69,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void retrieveAllByNameAndeYear() {
+    public void verifyRetrieveAllByNameAndeYear() {
         EsMovie movie = MovieFactory.getEsMovie();
         SearchCriteria criteria = new SearchCriteria();
         criteria.setName("Name");
@@ -89,7 +89,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void create() {
+    public void verifyCreate() {
         EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
@@ -101,7 +101,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void update(){
+    public void verifyUpdate(){
         EsMovie movie = MovieFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
@@ -115,7 +115,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void delete(){
+    public void verifyDelete(){
         Long movieId = 1L;
         Mockito.when(this.esMovieRepository.deleteById(movieId))
                 .thenReturn(Mono.empty());
