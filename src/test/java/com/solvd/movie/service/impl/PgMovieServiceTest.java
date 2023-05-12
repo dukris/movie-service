@@ -1,8 +1,7 @@
 package com.solvd.movie.service.impl;
 
 import com.solvd.movie.kafka.producer.KafkaProducer;
-import com.solvd.movie.model.EsMovie;
-import com.solvd.movie.model.PgMovie;
+import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
 import com.solvd.movie.persistence.PgMovieRepository;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
@@ -34,10 +33,10 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifyRetrieveByCorrectId() {
-        PgMovie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
-        Mono<PgMovie> foundMovie = this.pgMovieService.retrieveById(
+        Mono<Movie> foundMovie = this.pgMovieService.retrieveById(
                 movie.getId()
         );
         StepVerifier.create(foundMovie)
@@ -51,7 +50,7 @@ public class PgMovieServiceTest {
         Long movieId = 1L;
         Mockito.when(this.pgMovieRepository.findById(movieId))
                 .thenReturn(Mono.justOrEmpty(Optional.empty()));
-        Mono<PgMovie> foundMovie = this.pgMovieService.retrieveById(movieId);
+        Mono<Movie> foundMovie = this.pgMovieService.retrieveById(movieId);
         StepVerifier.create(foundMovie)
                 .expectError(ResourceNotFoundException.class)
                 .verify();
@@ -71,12 +70,10 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifyCreate() {
-        PgMovie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
-        Mockito.when(this.movieMapper.toEntity(movie))
-                .thenReturn(new EsMovie());
-        Mono<PgMovie> createdMovie = this.pgMovieService.create(movie);
+        Mono<Movie> createdMovie = this.pgMovieService.create(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
@@ -85,14 +82,12 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifyUpdate() {
-        PgMovie movie = MovieFactory.getPgMovie();
+        Movie movie = MovieFactory.getPgMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
-        Mockito.when(this.movieMapper.toEntity(movie))
-                .thenReturn(new EsMovie());
-        Mono<PgMovie> updatedMovie = this.pgMovieService.update(movie);
+        Mono<Movie> updatedMovie = this.pgMovieService.update(movie);
         StepVerifier.create(updatedMovie)
                 .expectNext(movie)
                 .expectNextCount(0)

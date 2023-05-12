@@ -1,7 +1,7 @@
 package com.solvd.movie.service.impl;
 
 import com.solvd.movie.model.EsMovie;
-import com.solvd.movie.model.PgMovie;
+import com.solvd.movie.model.Movie;
 
 public final class MovieFactory {
 
@@ -9,13 +9,12 @@ public final class MovieFactory {
         EsMovie movie = new EsMovie();
         movie.setId(1L);
         movie.setName("Name");
-        movie.setDescription("Description");
         movie.setYear(2023);
         return movie;
     }
 
-    public static PgMovie getPgMovie(){
-        PgMovie movie = new PgMovie();
+    public static Movie getPgMovie(){
+        Movie movie = new Movie();
         movie.setId(1L);
         movie.setName("Name");
         movie.setDescription("Description");
