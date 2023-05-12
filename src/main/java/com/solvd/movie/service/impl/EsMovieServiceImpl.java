@@ -47,7 +47,10 @@ public class EsMovieServiceImpl implements EsMovieService {
                 .flatMap(foundMovie -> {
                     foundMovie.setName(movie.getName());
                     foundMovie.setYear(movie.getYear());
-                    foundMovie.setDescription(movie.getDescription());
+                    foundMovie.setCountry(movie.getCountry());
+                    foundMovie.setGenre(movie.getGenre());
+                    foundMovie.setLanguage(movie.getLanguage());
+                    foundMovie.setQuality(movie.getQuality());
                     return this.esMovieRepository.save(movie);
                 });
     }

@@ -1,13 +1,17 @@
 package com.solvd.movie.service;
 
 import com.solvd.movie.model.Movie;
+import com.solvd.movie.model.criteria.SearchCriteria;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * MovieService for Postgresql
+ * Main MovieService
  */
 
-public interface PgMovieService {
+public interface MovieService {
+
+    Flux<Movie> retrieveAllByCriteria(SearchCriteria searchCriteria);
 
     Mono<Movie> retrieveById(Long movieId);
 

@@ -5,6 +5,10 @@ import com.solvd.movie.model.criteria.SearchCriteria;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * MovieService for Elasticsearch
+ */
+
 public interface EsMovieService {
 
     Flux<EsMovie> retrieveAllByCriteria(SearchCriteria searchCriteria);

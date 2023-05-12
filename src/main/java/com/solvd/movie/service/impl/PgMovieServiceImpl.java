@@ -1,14 +1,9 @@
 package com.solvd.movie.service.impl;
 
-import com.solvd.movie.kafka.producer.KafkaProducer;
-import com.solvd.movie.model.Action;
-import com.solvd.movie.model.EsMovie;
-import com.solvd.movie.model.Event;
-import com.solvd.movie.model.PgMovie;
+import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
 import com.solvd.movie.persistence.PgMovieRepository;
 import com.solvd.movie.service.PgMovieService;
-import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +16,9 @@ import java.util.Optional;
 public class PgMovieServiceImpl implements PgMovieService {
 
     private final PgMovieRepository pgMovieRepository;
-    private final KafkaProducer kafkaProducer;
-    private final MovieMapper movieMapper;
 
     @Override
-    public Mono<PgMovie> retrieveById(final Long movieId) {
+    public Mono<Movie> retrieveById(final Long movieId) {
         return this.pgMovieRepository.findById(movieId)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
@@ -49,53 +42,29 @@ public class PgMovieServiceImpl implements PgMovieService {
 
     @Override
     @Transactional
-    public Mono<PgMovie> create(final PgMovie movie) {
-        return this.pgMovieRepository.save(movie)
-                .flatMap(pgMovie -> {
-                            Event event = new Event();
-                            event.setAction(Action.CREATE_MOVIE);
-                            event.setMovie(this.movieMapper.toEntity(pgMovie));
-                            this.kafkaProducer.send(event);
-                            return Mono.just(pgMovie);
-                        }
-                );
+    public Mono<Movie> create(final Movie movie) {
+        return this.pgMovieRepository.save(movie);
     }
 
     @Override
     @Transactional
-    public Mono<PgMovie> update(final PgMovie movie) {
+    public Mono<Movie> update(final Movie movie) {
         return this.pgMovieRepository.findById(movie.getId())
                 .flatMap(foundMovie -> {
                     foundMovie.setName(movie.getName());
-                    foundMovie.setDescription(movie.getDescription());
                     foundMovie.setYear(movie.getYear());
-                    return this.pgMovieRepository.save(foundMovie)
-                            .flatMap(pgMovie -> {
-                                        Event event = new Event();
-                                        event.setAction(
-                                                Action.UPDATE_MOVIE
-                                        );
-                                        event.setMovie(
-                                                this.movieMapper.toEntity(
-                                                        pgMovie
-                                                )
-                                        );
-                                        this.kafkaProducer.send(event);
-                                        return Mono.just(pgMovie);
-                                    }
-                            );
+                    foundMovie.setCountry(movie.getCountry());
+                    foundMovie.setGenre(movie.getGenre());
+                    foundMovie.setLanguage(movie.getLanguage());
+                    foundMovie.setQuality(movie.getQuality());
+                    foundMovie.setDescription(movie.getDescription());
+                    return this.pgMovieRepository.save(foundMovie);
                 });
     }
 
     @Override
     @Transactional
     public Mono<Void> delete(final Long movieId) {
-        EsMovie movie = new EsMovie();
-        movie.setId(movieId);
-        Event event = new Event();
-        event.setAction(Action.DELETE_MOVIE);
-        event.setMovie(movie);
-        this.kafkaProducer.send(event);
         return this.pgMovieRepository.deleteById(movieId);
     }
 
