@@ -11,5 +11,9 @@ public class SearchCriteria {
 
     private String name;
     private Integer year;
+    private String country;
+    private String genre;
+    private String language;
+    private String quality;
 
 }
