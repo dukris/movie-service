@@ -1,11 +1,13 @@
 package com.solvd.movie.web.dto.criteria;
 
-import lombok.AllArgsConstructor;
+public record SearchCriteriaDto(
 
-@AllArgsConstructor
-public class SearchCriteriaDto {
+        String name,
+        Integer year,
+        String country,
+        String genre,
+        String language,
+        String quality
 
-    private final String name;
-    private final Integer year;
-
+) {
 }
