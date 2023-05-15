@@ -3,11 +3,12 @@ package com.solvd.movie.web.dto.criteria;
 public record SearchCriteriaDto(
 
         String name,
-        Integer year,
+        Integer yearFrom,
+        Integer yearTo,
         String country,
         String genre,
         String language,
-        String quality
+        Integer quality
 
 ) {
 }
