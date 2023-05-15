@@ -28,7 +28,7 @@ public record MovieDto(
         String language,
 
         @NotBlank(message = "Quality can't be blank!")
-        String quality,
+        Integer quality,
 
         @NotBlank(message = "Description can't be blank!")
         String description

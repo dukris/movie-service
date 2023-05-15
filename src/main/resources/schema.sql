@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS movies
     country     varchar(50)  NOT NULL,
     genre       varchar(50)  NOT NULL,
     language    varchar(50)  NOT NULL,
-    quality     varchar(50)  NOT NULL,
+    quality     integer      NOT NULL,
     description varchar(150) NOT NULL,
     PRIMARY KEY (id)
 );

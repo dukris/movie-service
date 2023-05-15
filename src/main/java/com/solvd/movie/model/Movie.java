@@ -24,7 +24,7 @@ public class Movie {
     private String country;
     private String genre;
     private String language;
-    private String quality;
+    private Integer quality;
     private String description;
 
 }
