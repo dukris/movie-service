@@ -1,14 +1,16 @@
 package com.solvd.movie.web.dto.criteria;
 
-public record SearchCriteriaDto(
+import lombok.Data;
 
-        String name,
-        Integer yearFrom,
-        Integer yearTo,
-        String country,
-        String genre,
-        String language,
-        Integer quality
+@Data
+public class SearchCriteriaDto {
 
-) {
+    private String name = "";
+    private Integer yearFrom = 0;
+    private Integer yearTo = Integer.MAX_VALUE;
+    private String country = "";
+    private String genre = "";
+    private String language = "";
+    private Integer quality = 360;
+
 }

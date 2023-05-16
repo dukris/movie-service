@@ -10,6 +10,7 @@ import com.solvd.movie.web.dto.mapper.MovieMapper;
 import com.solvd.movie.web.dto.mapper.SearchCriteriaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,9 +41,13 @@ public class MovieController {
 
     @GetMapping()
     public Flux<MovieDto> getAllByCriteria(
-            final SearchCriteriaDto criteriaDto) {
+            final SearchCriteriaDto criteriaDto,
+            final Pageable pageable) {
         SearchCriteria criteria = this.criteriaMapper.toEntity(criteriaDto);
-        Flux<Movie> movies = this.movieService.retrieveAllByCriteria(criteria);
+        Flux<Movie> movies = this.movieService.retrieveAllByCriteria(
+                criteria,
+                pageable
+        );
         return movies.map(this.movieMapper::toDto);
     }
 
@@ -77,7 +82,8 @@ public class MovieController {
 
     @PutMapping("/{movieId}")
     public Mono<MovieDto> update(@PathVariable final Long movieId,
-            @Validated @RequestBody final MovieDto movieDto) {
+                                 @Validated
+                                 @RequestBody final MovieDto movieDto) {
         Movie movie = this.movieMapper.toEntity(movieDto);
         movie.setId(movieId);
         Mono<Movie> movieMono = this.movieService.update(movie);

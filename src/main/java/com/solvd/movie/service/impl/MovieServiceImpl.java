@@ -11,6 +11,8 @@ import com.solvd.movie.service.MovieService;
 import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,11 +28,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Flux<Movie> retrieveAllByCriteria(
-            final SearchCriteria searchCriteria) {
-        return this.esMovieService.retrieveAllByCriteria(searchCriteria)
-                .flatMap(esMovie ->
-                        this.pgMovieService.retrieveById(esMovie.getId())
-                );
+            final SearchCriteria searchCriteria,
+            final Pageable pageable) {
+        return this.esMovieService.retrieveAllByCriteria(
+                        searchCriteria, pageable
+                )
+                .flatMap(movie ->
+                        this.pgMovieService.retrieveById(movie.getId()));
     }
 
     @Override

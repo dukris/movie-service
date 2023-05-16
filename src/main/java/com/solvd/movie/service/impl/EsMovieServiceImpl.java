@@ -5,6 +5,13 @@ import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.persistence.EsMovieRepository;
 import com.solvd.movie.service.EsMovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -14,24 +21,34 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class EsMovieServiceImpl implements EsMovieService {
 
+    private static final String INDEX = "movies";
+    private final ReactiveElasticsearchOperations operations;
     private final EsMovieRepository esMovieRepository;
 
     @Override
-    public Flux<EsMovie> retrieveAllByCriteria(final SearchCriteria criteria) {
-        Flux<EsMovie> movies;
-        if (criteria.getName() != null && criteria.getYear() != null) {
-            movies = this.esMovieRepository.findAllByNameAndYear(
-                    criteria.getName(),
-                    criteria.getYear()
-            );
-        } else if (criteria.getName() != null) {
-            movies = this.esMovieRepository.findAllByName(criteria.getName());
-        } else if (criteria.getYear() != null) {
-            movies = this.esMovieRepository.findAllByYear(criteria.getYear());
-        } else {
-            movies = this.esMovieRepository.findAll();
-        }
-        return movies;
+    public Flux<EsMovie> retrieveAllByCriteria(
+            final SearchCriteria searchCriteria,
+            final Pageable pageable) {
+        Criteria criteria = new Criteria("name")
+                .contains(searchCriteria.getName())
+                .and("year")
+                .greaterThanEqual(searchCriteria.getYearFrom())
+                .lessThanEqual(searchCriteria.getYearTo())
+                .and("country")
+                .contains(searchCriteria.getCountry())
+                .and("genre")
+                .contains(searchCriteria.getGenre())
+                .and("language")
+                .contains(searchCriteria.getLanguage())
+                .and("quality")
+                .is(searchCriteria.getQuality());
+        Query searchQuery = new CriteriaQuery(criteria)
+                .setPageable(pageable);
+        return this.operations
+                .search(searchQuery,
+                        EsMovie.class,
+                        IndexCoordinates.of(INDEX))
+                .map(SearchHit::getContent);
     }
 
     @Override
