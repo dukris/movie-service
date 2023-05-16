@@ -11,7 +11,6 @@ import com.solvd.movie.service.MovieService;
 import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
