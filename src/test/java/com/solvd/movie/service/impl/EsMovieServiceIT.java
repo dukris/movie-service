@@ -2,7 +2,6 @@ package com.solvd.movie.service.impl;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
-import com.solvd.movie.persistence.EsMovieRepository;
 import com.solvd.movie.service.EsMovieService;
 import integration.EsContainer;
 import org.junit.jupiter.api.AfterAll;
@@ -37,9 +36,6 @@ public class EsMovieServiceIT {
     }
 
     @Autowired
-    private EsMovieRepository esMovieRepository;
-
-    @Autowired
     private EsMovieService esMovieService;
 
     @BeforeAll
@@ -51,7 +47,7 @@ public class EsMovieServiceIT {
     public void verifyFindAll() {
         EsMovie movie = MovieFactory.getEsMovie();
         Pageable pageable = PageRequest.of(0, 20);
-        Mono<EsMovie> createdMovie = this.esMovieRepository.save(movie);
+        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
@@ -77,7 +73,7 @@ public class EsMovieServiceIT {
         criteria.setQuality(720);
         EsMovie movie = MovieFactory.getEsMovie();
         Pageable pageable = PageRequest.of(0, 20);
-        Mono<EsMovie> createdMovie = this.esMovieRepository.save(movie);
+        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
@@ -92,9 +88,19 @@ public class EsMovieServiceIT {
     }
 
     @Test
-    public void verifySave() {
+    public void verifyCreate() {
         EsMovie movie = MovieFactory.getEsMovie();
-        Mono<EsMovie> createdMovie = this.esMovieRepository.save(movie);
+        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
+        StepVerifier.create(createdMovie)
+                .expectNext(movie)
+                .expectNextCount(0)
+                .verifyComplete();
+    }
+
+    @Test
+    public void verifyUpdate() {
+        EsMovie movie = MovieFactory.getEsMovie();
+        Mono<EsMovie> createdMovie = this.esMovieService.update(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
@@ -104,7 +110,7 @@ public class EsMovieServiceIT {
     @Test
     public void verifyDelete() {
         Long movieId = 1L;
-        Mono<Void> result = this.esMovieRepository.deleteById(movieId);
+        Mono<Void> result = this.esMovieService.delete(movieId);
         StepVerifier.create(result)
                 .expectNextCount(0)
                 .verifyComplete();
