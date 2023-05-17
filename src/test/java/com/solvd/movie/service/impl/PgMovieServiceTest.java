@@ -1,10 +1,8 @@
 package com.solvd.movie.service.impl;
 
-import com.solvd.movie.kafka.producer.KafkaProducer;
 import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
 import com.solvd.movie.persistence.PgMovieRepository;
-import com.solvd.movie.web.dto.mapper.MovieMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,12 +19,6 @@ public class PgMovieServiceTest {
 
     @Mock
     private PgMovieRepository pgMovieRepository;
-
-    @Mock
-    private KafkaProducer kafkaProducer;
-
-    @Mock
-    private MovieMapper movieMapper;
 
     @InjectMocks
     private PgMovieServiceImpl pgMovieService;

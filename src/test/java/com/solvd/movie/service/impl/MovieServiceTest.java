@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -37,14 +39,16 @@ public class MovieServiceTest {
 
     @Test
     public void verifyRetrieveAllByCriteria() {
+        Pageable pageable = PageRequest.of(0, 20);
         EsMovie esMovie = MovieFactory.getEsMovie();
         Movie movie = MovieFactory.getMovie();
         SearchCriteria criteria = new SearchCriteria();
-        Mockito.when(this.esMovieService.retrieveAllByCriteria(criteria))
+        Mockito.when(this.esMovieService.retrieveAllByCriteria(
+                criteria, pageable))
                 .thenReturn(Flux.just(esMovie));
         Mockito.when(this.pgMovieService.retrieveById(esMovie.getId()))
                 .thenReturn(Mono.just(movie));
-        Flux<Movie> movies = this.movieService.retrieveAllByCriteria(criteria);
+        Flux<Movie> movies = this.movieService.retrieveAllByCriteria(criteria, pageable);
         StepVerifier.create(movies)
                 .expectNext(movie)
                 .expectNextCount(0)

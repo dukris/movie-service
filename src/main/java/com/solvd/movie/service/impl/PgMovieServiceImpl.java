@@ -56,7 +56,8 @@ public class PgMovieServiceImpl implements PgMovieService {
                     foundMovie.setCountry(movie.getCountry());
                     foundMovie.setGenre(movie.getGenre());
                     foundMovie.setLanguage(movie.getLanguage());
-                    foundMovie.setQuality(movie.getQuality());
+                    foundMovie.setQualityFrom(movie.getQualityFrom());
+                    foundMovie.setQualityTo(movie.getQualityTo());
                     foundMovie.setDescription(movie.getDescription());
                     return this.pgMovieRepository.save(foundMovie);
                 });

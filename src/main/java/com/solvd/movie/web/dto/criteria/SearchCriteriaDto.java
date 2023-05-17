@@ -1,13 +1,16 @@
 package com.solvd.movie.web.dto.criteria;
 
+import java.util.List;
+
 public record SearchCriteriaDto(
 
         String name,
-        Integer year,
+        Integer yearFrom,
+        Integer yearTo,
         String country,
-        String genre,
+        List<String> genres,
         String language,
-        String quality
+        Integer quality
 
 ) {
 }

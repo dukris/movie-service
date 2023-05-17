@@ -4,16 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class SearchCriteria {
 
     private String name;
-    private Integer year;
+    private Integer yearFrom;
+    private Integer yearTo;
     private String country;
-    private String genre;
+    private List<String> genres;
     private String language;
-    private String quality;
+    private Integer quality;
 
 }

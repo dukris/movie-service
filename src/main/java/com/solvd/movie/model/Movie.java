@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
@@ -24,7 +25,12 @@ public class Movie {
     private String country;
     private String genre;
     private String language;
-    private Integer quality;
     private String description;
+
+    @Column("quality_from")
+    private Integer qualityFrom;
+
+    @Column("quality_to")
+    private Integer qualityTo;
 
 }
