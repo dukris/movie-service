@@ -18,6 +18,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 public class EsMovieServiceTest {
 
@@ -53,7 +56,7 @@ public class EsMovieServiceTest {
         criteria.setYearFrom(2000);
         criteria.setYearTo(2020);
         criteria.setName("Film");
-        criteria.setGenre("genre");
+        criteria.setGenres(List.of("genre", "genre2"));
         criteria.setCountry("USA");
         criteria.setLanguage("language");
         criteria.setQuality(720);
