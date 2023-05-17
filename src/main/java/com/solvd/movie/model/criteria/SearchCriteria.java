@@ -4,17 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class SearchCriteria {
 
-    private String name = "";
-    private Integer yearFrom = 0;
-    private Integer yearTo = Integer.MAX_VALUE;
-    private String country = "";
-    private String genre = "";
-    private String language = "";
-    private Integer quality = 360;
+    private String name;
+    private Integer yearFrom;
+    private Integer yearTo;
+    private String country;
+    private List<String> genres;
+    private String language;
+    private Integer quality;
 
 }
