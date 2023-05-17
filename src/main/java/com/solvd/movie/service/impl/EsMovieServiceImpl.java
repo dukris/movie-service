@@ -29,19 +29,40 @@ public class EsMovieServiceImpl implements EsMovieService {
     public Flux<EsMovie> retrieveAllByCriteria(
             final SearchCriteria searchCriteria,
             final Pageable pageable) {
-        Criteria criteria = new Criteria("name")
-                .contains(searchCriteria.getName())
-                .and("year")
-                .greaterThanEqual(searchCriteria.getYearFrom())
-                .lessThanEqual(searchCriteria.getYearTo())
-                .and("country")
-                .contains(searchCriteria.getCountry())
-                .and("genre")
-                .contains(searchCriteria.getGenre())
-                .and("language")
-                .contains(searchCriteria.getLanguage())
-                .and("quality")
-                .is(searchCriteria.getQuality());
+        Criteria criteria = new Criteria();
+        if (searchCriteria.getName() != null) {
+            criteria.and(Criteria.where("name")
+                    .contains(searchCriteria.getName())
+            );
+        }
+        if (searchCriteria.getYearFrom() != null
+                && searchCriteria.getYearTo() != null) {
+            criteria.and(Criteria.where("year")
+                    .greaterThanEqual(searchCriteria.getYearFrom())
+                    .lessThanEqual(searchCriteria.getYearTo())
+            );
+        }
+        if (searchCriteria.getCountry() != null) {
+            criteria.and(Criteria.where("country")
+                    .is(searchCriteria.getCountry())
+            );
+        }
+        if (searchCriteria.getGenres() != null
+                && !searchCriteria.getGenres().isEmpty()) {
+            criteria.and(Criteria.where("genre")
+                    .in(searchCriteria.getGenres())
+            );
+        }
+        if (searchCriteria.getLanguage() != null) {
+            criteria.and(Criteria.where("language")
+                    .is(searchCriteria.getLanguage())
+            );
+        }
+        if (searchCriteria.getQuality() != null) {
+            criteria.and(Criteria.where("quality")
+                    .is(searchCriteria.getQuality())
+            );
+        }
         Query searchQuery = new CriteriaQuery(criteria)
                 .setPageable(pageable);
         return this.operations
