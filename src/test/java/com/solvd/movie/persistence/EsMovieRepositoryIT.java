@@ -1,8 +1,8 @@
-package com.solvd.movie.service.impl;
+package com.solvd.movie.persistence;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
-import com.solvd.movie.service.EsMovieService;
+import com.solvd.movie.service.impl.MovieFactory;
 import integration.EsContainer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +24,7 @@ import java.util.List;
 
 @SpringBootTest
 @Testcontainers
-public class EsMovieServiceIT {
+public class EsMovieRepositoryIT {
 
     @Container
     private static final ElasticsearchContainer container = new EsContainer();
@@ -36,7 +36,7 @@ public class EsMovieServiceIT {
     }
 
     @Autowired
-    private EsMovieService esMovieService;
+    private EsMovieRepository movieRepository;
 
     @BeforeAll
     public static void start() {
@@ -47,12 +47,12 @@ public class EsMovieServiceIT {
     public void verifyFindAll() {
         EsMovie movie = MovieFactory.getEsMovie();
         Pageable pageable = PageRequest.of(0, 20);
-        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
+        Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
                 .verifyComplete();
-        Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
+        Flux<EsMovie> movies = this.movieRepository.findAllByCriteria(
                 new SearchCriteria(), pageable
         );
         StepVerifier.create(movies)
@@ -73,12 +73,12 @@ public class EsMovieServiceIT {
         criteria.setQuality(720);
         EsMovie movie = MovieFactory.getEsMovie();
         Pageable pageable = PageRequest.of(0, 20);
-        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
+        Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
                 .verifyComplete();
-        Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
+        Flux<EsMovie> movies = this.movieRepository.findAllByCriteria(
                 criteria, pageable
         );
         StepVerifier.create(movies)
@@ -88,19 +88,9 @@ public class EsMovieServiceIT {
     }
 
     @Test
-    public void verifyCreate() {
+    public void verifySave() {
         EsMovie movie = MovieFactory.getEsMovie();
-        Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
-        StepVerifier.create(createdMovie)
-                .expectNext(movie)
-                .expectNextCount(0)
-                .verifyComplete();
-    }
-
-    @Test
-    public void verifyUpdate() {
-        EsMovie movie = MovieFactory.getEsMovie();
-        Mono<EsMovie> createdMovie = this.esMovieService.update(movie);
+        Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
@@ -110,7 +100,7 @@ public class EsMovieServiceIT {
     @Test
     public void verifyDelete() {
         Long movieId = 1L;
-        Mono<Void> result = this.esMovieService.delete(movieId);
+        Mono<Void> result = this.movieRepository.deleteById(movieId);
         StepVerifier.create(result)
                 .expectNextCount(0)
                 .verifyComplete();
