@@ -3,6 +3,7 @@ package com.solvd.movie.persistence.impl;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.persistence.CriteriaMovieRepository;
+import com.solvd.movie.persistence.builder.impl.CriteriaBuilderImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
@@ -19,45 +20,13 @@ import reactor.core.publisher.Flux;
 public class CriteriaMovieRepositoryImpl implements CriteriaMovieRepository {
 
     private static final String INDEX = "movies";
+    private final CriteriaBuilderImpl builder;
     private final ReactiveElasticsearchOperations operations;
 
     @Override
     public Flux<EsMovie> findAllByCriteria(final SearchCriteria searchCriteria,
                                            final Pageable pageable) {
-        Criteria criteria = new Criteria();
-        if (searchCriteria.getName() != null) {
-            criteria.and(Criteria.where("name")
-                    .contains(searchCriteria.getName())
-            );
-        }
-        if (searchCriteria.getYearFrom() != null
-                && searchCriteria.getYearTo() != null) {
-            criteria.and(Criteria.where("year")
-                    .greaterThanEqual(searchCriteria.getYearFrom())
-                    .lessThanEqual(searchCriteria.getYearTo())
-            );
-        }
-        if (searchCriteria.getCountry() != null) {
-            criteria.and(Criteria.where("country")
-                    .is(searchCriteria.getCountry())
-            );
-        }
-        if (searchCriteria.getGenres() != null
-                && !searchCriteria.getGenres().isEmpty()) {
-            criteria.and(Criteria.where("genre")
-                    .in(searchCriteria.getGenres())
-            );
-        }
-        if (searchCriteria.getLanguage() != null) {
-            criteria.and(Criteria.where("language")
-                    .is(searchCriteria.getLanguage())
-            );
-        }
-        if (searchCriteria.getQuality() != null) {
-            criteria.and(Criteria.where("quality")
-                    .is(searchCriteria.getQuality())
-            );
-        }
+        Criteria criteria = this.builder.build(searchCriteria);
         Query searchQuery = new CriteriaQuery(criteria)
                 .setPageable(pageable);
         return this.operations
