@@ -11,9 +11,13 @@ public class EsContainer extends ElasticsearchContainer {
                 .asCompatibleSubstituteFor(
                         "docker.elastic.co/elasticsearch/elasticsearch")
         );
+    }
+
+    public EsContainer init() {
         this.addFixedExposedPort(9200, 9200);
         this.addEnv("discovery.type", "single-node");
         this.addEnv("xpack.security.enabled", "false");
+        return this;
     }
 
 }
