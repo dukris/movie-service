@@ -5,6 +5,6 @@ import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRe
 
 public interface EsMovieRepository
         extends ReactiveElasticsearchRepository<EsMovie, Long>,
-        SearchMovieRepository {
+        CriteriaMovieRepository {
 
 }

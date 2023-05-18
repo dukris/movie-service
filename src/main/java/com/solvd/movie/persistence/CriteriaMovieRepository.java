@@ -5,7 +5,7 @@ import com.solvd.movie.model.criteria.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 
-public interface SearchMovieRepository {
+public interface CriteriaMovieRepository {
 
     Flux<EsMovie> findAllByCriteria(
             SearchCriteria searchCriteria,

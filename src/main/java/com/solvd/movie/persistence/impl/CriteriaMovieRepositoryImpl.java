@@ -2,7 +2,7 @@ package com.solvd.movie.persistence.impl;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
-import com.solvd.movie.persistence.SearchMovieRepository;
+import com.solvd.movie.persistence.CriteriaMovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Flux;
 
 @Repository
 @RequiredArgsConstructor
-public class SearchMovieRepositoryImpl implements SearchMovieRepository {
+public class CriteriaMovieRepositoryImpl implements CriteriaMovieRepository {
 
     private static final String INDEX = "movies";
     private final ReactiveElasticsearchOperations operations;
