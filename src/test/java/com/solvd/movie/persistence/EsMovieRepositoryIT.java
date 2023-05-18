@@ -2,15 +2,15 @@ package com.solvd.movie.persistence;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
-import com.solvd.movie.service.impl.MovieFactory;
+import com.solvd.movie.service.impl.ModelFactory;
 import integration.EsContainer;
+import integration.TestProperties;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
@@ -20,20 +20,12 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.List;
-
-@SpringBootTest
+@SpringBootTest()
 @Testcontainers
 public class EsMovieRepositoryIT {
 
     @Container
-    private static final ElasticsearchContainer container = new EsContainer();
-
-    @DynamicPropertySource
-    private static void properties(final DynamicPropertyRegistry registry) {
-        registry.add("spring.elasticsearch.uris", container::getHttpHostAddress);
-        registry.add("kafka.bootstrap-servers", () -> "localhost");
-    }
+    private static final ElasticsearchContainer container = new EsContainer().init();
 
     @Autowired
     private EsMovieRepository movieRepository;
@@ -43,17 +35,22 @@ public class EsMovieRepositoryIT {
         container.start();
     }
 
+    @DynamicPropertySource
+    private static void properties(final DynamicPropertyRegistry registry) {
+        new TestProperties().set(registry);
+    }
+
     @Test
     public void verifyFindAll() {
-        EsMovie movie = MovieFactory.getEsMovie();
-        Pageable pageable = PageRequest.of(0, 20);
+        SearchCriteria criteria = ModelFactory.getEmptyCriteria();
+        EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
                 .verifyComplete();
         Flux<EsMovie> movies = this.movieRepository.findAllByCriteria(
-                new SearchCriteria(), pageable
+                criteria, PageRequest.of(0, 20)
         );
         StepVerifier.create(movies)
                 .expectNext(movie)
@@ -63,23 +60,15 @@ public class EsMovieRepositoryIT {
 
     @Test
     public void verifyFindByCriteria() {
-        SearchCriteria criteria = new SearchCriteria();
-        criteria.setYearFrom(2000);
-        criteria.setYearTo(2020);
-        criteria.setName("Film");
-        criteria.setGenres(List.of("genre", "genre2"));
-        criteria.setCountry("USA");
-        criteria.setLanguage("language");
-        criteria.setQuality(720);
-        EsMovie movie = MovieFactory.getEsMovie();
-        Pageable pageable = PageRequest.of(0, 20);
+        SearchCriteria criteria = ModelFactory.getCriteria();
+        EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
                 .expectNextCount(0)
                 .verifyComplete();
         Flux<EsMovie> movies = this.movieRepository.findAllByCriteria(
-                criteria, pageable
+                criteria, PageRequest.of(0, 20)
         );
         StepVerifier.create(movies)
                 .expectNext(movie)
@@ -89,7 +78,7 @@ public class EsMovieRepositoryIT {
 
     @Test
     public void verifySave() {
-        EsMovie movie = MovieFactory.getEsMovie();
+        EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)

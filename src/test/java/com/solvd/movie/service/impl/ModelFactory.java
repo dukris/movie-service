@@ -3,8 +3,11 @@ package com.solvd.movie.service.impl;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.Quality;
+import com.solvd.movie.model.criteria.SearchCriteria;
 
-public final class MovieFactory {
+import java.util.List;
+
+public final class ModelFactory {
 
     public static EsMovie getEsMovie() {
         EsMovie movie = new EsMovie();
@@ -33,6 +36,22 @@ public final class MovieFactory {
         movie.setQualityTo(1024);
         movie.setDescription("Description");
         return movie;
+    }
+
+    public static SearchCriteria getCriteria(){
+        SearchCriteria criteria = new SearchCriteria();
+        criteria.setYearFrom(2000);
+        criteria.setYearTo(2020);
+        criteria.setName("Film");
+        criteria.setGenres(List.of("genre", "genre2"));
+        criteria.setCountry("USA");
+        criteria.setLanguage("language");
+        criteria.setQuality(720);
+        return criteria;
+    }
+
+    public static SearchCriteria getEmptyCriteria(){
+        return new SearchCriteria();
     }
 
 }
