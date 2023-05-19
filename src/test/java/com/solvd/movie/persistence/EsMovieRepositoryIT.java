@@ -3,42 +3,20 @@ package com.solvd.movie.persistence;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.service.impl.ModelFactory;
-import integration.EsContainer;
-import integration.TestProperties;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import integration.ITCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.elasticsearch.ElasticsearchContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-@SpringBootTest()
-@Testcontainers
-public class EsMovieRepositoryIT {
-
-    @Container
-    private static final ElasticsearchContainer container = new EsContainer().init();
+@SpringBootTest
+public class EsMovieRepositoryIT extends ITCase {
 
     @Autowired
     private EsMovieRepository movieRepository;
-
-    @BeforeAll
-    public static void start() {
-        container.start();
-    }
-
-    @DynamicPropertySource
-    private static void properties(final DynamicPropertyRegistry registry) {
-        new TestProperties().set(registry);
-    }
 
     @Test
     public void verifyFindAll() {
@@ -93,11 +71,6 @@ public class EsMovieRepositoryIT {
         StepVerifier.create(result)
                 .expectNextCount(0)
                 .verifyComplete();
-    }
-
-    @AfterAll
-    public static void stop() {
-        container.stop();
     }
 
 }
