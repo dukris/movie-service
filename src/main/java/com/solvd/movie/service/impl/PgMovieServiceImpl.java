@@ -5,6 +5,7 @@ import com.solvd.movie.model.exception.ResourceNotFoundException;
 import com.solvd.movie.persistence.PgMovieRepository;
 import com.solvd.movie.service.PgMovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Profile("active")
 public class PgMovieServiceImpl implements PgMovieService {
 
     private final PgMovieRepository pgMovieRepository;

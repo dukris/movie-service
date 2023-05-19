@@ -8,12 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @SpringBootTest
-public class EsMovieRepositoryIT extends ITCase {
+@ActiveProfiles("test")
+@TestPropertySource(properties = {"spring.autoconfigure.exclude=" +
+        "org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration"}
+)
+public class EsMovieRepositoryITest extends ITCase {
 
     @Autowired
     private EsMovieRepository movieRepository;

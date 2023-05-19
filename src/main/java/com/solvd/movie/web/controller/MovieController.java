@@ -10,6 +10,7 @@ import com.solvd.movie.web.dto.mapper.MovieMapper;
 import com.solvd.movie.web.dto.mapper.SearchCriteriaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +30,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/movies")
+@Profile("active")
 public class MovieController {
 
     private final MovieService movieService;
