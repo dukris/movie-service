@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-@Profile("active")
+@Profile("!test")
 public class MovieServiceImpl implements MovieService {
 
     private final EsMovieService esMovieService;

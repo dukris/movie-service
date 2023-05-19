@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/movies")
-@Profile("active")
+@Profile("!test")
 public class MovieController {
 
     private final MovieService movieService;

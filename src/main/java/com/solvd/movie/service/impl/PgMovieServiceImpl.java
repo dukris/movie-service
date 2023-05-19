@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Profile("active")
+@Profile("!test")
 public class PgMovieServiceImpl implements PgMovieService {
 
     private final PgMovieRepository pgMovieRepository;
