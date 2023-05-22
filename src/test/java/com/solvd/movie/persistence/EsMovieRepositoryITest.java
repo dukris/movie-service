@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +17,7 @@ import reactor.test.StepVerifier;
 
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfig.class})
+@ActiveProfiles("test")
 public class EsMovieRepositoryITest extends ITCase {
 
     @Autowired

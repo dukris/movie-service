@@ -1,0 +1,4 @@
+spring:
+  elasticsearch:
+    rest:
+      uris: ${ELASTIC_SERVER}:9200
