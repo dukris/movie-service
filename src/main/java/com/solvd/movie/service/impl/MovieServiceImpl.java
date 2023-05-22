@@ -11,7 +11,6 @@ import com.solvd.movie.service.MovieService;
 import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -19,7 +18,6 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-@Profile("!test")
 public class MovieServiceImpl implements MovieService {
 
     private final EsMovieService esMovieService;

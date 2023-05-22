@@ -4,21 +4,18 @@ import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.service.impl.ModelFactory;
 import integration.ITCase;
+import integration.TestConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @SpringBootTest
-@ActiveProfiles("test")
-@TestPropertySource(properties = {"spring.autoconfigure.exclude="
-        + "org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration"}
-)
+@ContextConfiguration(classes = {TestConfig.class})
 public class EsMovieRepositoryITest extends ITCase {
 
     @Autowired
