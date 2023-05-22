@@ -2,15 +2,11 @@ package integration;
 
 
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
-import org.testcontainers.utility.DockerImageName;
 
 public class EsContainer extends ElasticsearchContainer {
 
     public EsContainer() {
-        super(DockerImageName.parse("elasticsearch:8.5.3")
-                .asCompatibleSubstituteFor(
-                        "docker.elastic.co/elasticsearch/elasticsearch")
-        );
+        super("docker.elastic.co/elasticsearch/elasticsearch:8.5.3");
     }
 
     public EsContainer init() {
