@@ -14,7 +14,11 @@ public class ITCase {
 
     @DynamicPropertySource
     private static void properties(final DynamicPropertyRegistry registry) {
-        new TestProperties().set(registry);
+        new PropertyOf(
+                registry,
+                "spring.elasticsearch.rest.uris",
+                "localhost"
+        ).set();
     }
 
     @BeforeAll
