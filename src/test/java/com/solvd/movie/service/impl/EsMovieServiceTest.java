@@ -11,15 +11,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class EsMovieServiceTest {
@@ -27,57 +21,31 @@ public class EsMovieServiceTest {
     @Mock
     private EsMovieRepository esMovieRepository;
 
-    @Mock
-    private ReactiveElasticsearchOperations operations;
-
     @InjectMocks
     private EsMovieServiceImpl esMovieService;
 
     @Test
-    public void verifyRetrieveAll() {
-        Pageable pageable = PageRequest.of(0, 20);
-        Mockito.when(this.operations.search(
-                        Mockito.any(CriteriaQuery.class),
-                        Mockito.eq(EsMovie.class),
-                        Mockito.any(IndexCoordinates.class))
-                ).thenReturn(Flux.empty());
-        Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
-                new SearchCriteria(),
-                pageable
-        );
-        StepVerifier.create(movies)
-                .expectNextCount(0)
-                .verifyComplete();
-    }
-
-    @Test
     public void verifyRetrieveAllByCriteria() {
-        SearchCriteria criteria = new SearchCriteria();
-        criteria.setYearFrom(2000);
-        criteria.setYearTo(2020);
-        criteria.setName("Film");
-        criteria.setGenres(List.of("genre", "genre2"));
-        criteria.setCountry("USA");
-        criteria.setLanguage("language");
-        criteria.setQuality(720);
+        SearchCriteria criteria = ModelFactory.getEmptyCriteria();
         Pageable pageable = PageRequest.of(0, 20);
-        Mockito.when(this.operations.search(
-                Mockito.any(CriteriaQuery.class),
-                Mockito.eq(EsMovie.class),
-                Mockito.any(IndexCoordinates.class))
-        ).thenReturn(Flux.empty());
+        EsMovie movie = ModelFactory.getEsMovie();
+        Mockito.when(this.esMovieRepository.findAllByCriteria(
+                criteria,
+                pageable
+        )).thenReturn(Flux.just(movie));
         Flux<EsMovie> movies = this.esMovieService.retrieveAllByCriteria(
                 criteria,
                 pageable
         );
         StepVerifier.create(movies)
+                .expectNext(movie)
                 .expectNextCount(0)
                 .verifyComplete();
     }
 
     @Test
     public void verifyCreate() {
-        EsMovie movie = MovieFactory.getEsMovie();
+        EsMovie movie = ModelFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
@@ -89,7 +57,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void verifyUpdate() {
-        EsMovie movie = MovieFactory.getEsMovie();
+        EsMovie movie = ModelFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.esMovieRepository.findById(movie.getId()))

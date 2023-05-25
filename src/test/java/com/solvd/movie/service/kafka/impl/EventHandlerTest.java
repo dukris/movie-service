@@ -3,7 +3,7 @@ package com.solvd.movie.service.kafka.impl;
 import com.solvd.movie.model.Action;
 import com.solvd.movie.model.Event;
 import com.solvd.movie.service.EsMovieService;
-import com.solvd.movie.service.impl.MovieFactory;
+import com.solvd.movie.service.impl.ModelFactory;
 import com.solvd.movie.service.kafka.action.ActionHandler;
 import com.solvd.movie.service.kafka.action.impl.CreateMovieHandler;
 import com.solvd.movie.service.kafka.action.impl.DeleteMovieHandler;
@@ -35,7 +35,7 @@ public class EventHandlerTest {
     public void verifyCreateMovieAction() {
         Event event = new Event();
         event.setAction(Action.CREATE_MOVIE);
-        event.setMovie(MovieFactory.getEsMovie());
+        event.setMovie(ModelFactory.getEsMovie());
         Mockito.when(this.actions.get(event.getAction().getName()))
                 .thenReturn(new CreateMovieHandler(this.esMovieService));
         Mockito.when(this.esMovieService.create(event.getMovie()))
@@ -52,7 +52,7 @@ public class EventHandlerTest {
     public void verifyDeleteMovieAction() {
         Event event = new Event();
         event.setAction(Action.DELETE_MOVIE);
-        event.setMovie(MovieFactory.getEsMovie());
+        event.setMovie(ModelFactory.getEsMovie());
         Mockito.when(this.actions.get(event.getAction().getName()))
                 .thenReturn(new DeleteMovieHandler(this.esMovieService));
         Mockito.when(this.esMovieService.delete(event.getMovie().getId()))
@@ -69,7 +69,7 @@ public class EventHandlerTest {
     public void verifyUpdateMovieAction() {
         Event event = new Event();
         event.setAction(Action.UPDATE_MOVIE);
-        event.setMovie(MovieFactory.getEsMovie());
+        event.setMovie(ModelFactory.getEsMovie());
         Mockito.when(this.actions.get(event.getAction().getName()))
                 .thenReturn(new UpdateMovieHandler(this.esMovieService));
         Mockito.when(this.esMovieService.update(event.getMovie()))

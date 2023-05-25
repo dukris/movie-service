@@ -30,6 +30,8 @@
     <org.mockito.version>5.0.0</org.mockito.version>
     <org.jacoco.version>0.8.10</org.jacoco.version>
     <reactor-test.version>3.2.3.RELEASE</reactor-test.version>
+    <org.testcontainers.version>1.18.1</org.testcontainers.version>
+    <failsafe.version>3.0.0-M6</failsafe.version>
   </properties>
   <dependencies>
     <dependency>
@@ -121,6 +123,12 @@
       <scope>test</scope>
       <version>${reactor-test.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>${org.testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -174,6 +182,22 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
