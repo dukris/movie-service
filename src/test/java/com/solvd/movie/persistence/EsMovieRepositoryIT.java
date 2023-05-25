@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfig.class})
 @ActiveProfiles("test")
-public class EsMovieRepositoryITest extends ITCase {
+public class EsMovieRepositoryIT extends ITCase {
 
     @Autowired
     private EsMovieRepository movieRepository;
