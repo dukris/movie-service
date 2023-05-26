@@ -1,6 +1,8 @@
 server:
   port: 8081
-
+logging:
+  file:
+    name: logstash/pipeline/movies.log
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -18,9 +20,7 @@ spring:
   elasticsearch:
     rest:
       uris: ${ELASTIC_SERVER}:9200
-
 services:
   review-url: ${REVIEW_URL}
-
 kafka:
   bootstrap-servers: ${BOOTSTRAP_SERVERS}:9092

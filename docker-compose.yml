@@ -25,6 +25,24 @@ services:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
       - movie
+  logstash:
+    image: logstash:8.5.3
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "50000:50000/tcp"
+      - "50000:50000/udp"
+      - "9600:9600"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/config/pipeline
+      - logstash-data:/usr/share/logstash/data
+    command: logstash -f /usr/share/logstash/config/pipeline/logstash.conf
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - movie
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     container_name: zookeeper
@@ -61,4 +79,6 @@ volumes:
   elasticsearch-data:
     driver: local
   kibana-data:
+    driver: local
+  logstash-data:
     driver: local
