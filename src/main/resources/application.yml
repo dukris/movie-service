@@ -2,7 +2,7 @@ server:
   port: 8081
 logging:
   file:
-    name: logstash/pipeline/movies.log
+    name: elk/logstash/pipeline/movies.log
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -24,3 +24,15 @@ services:
   review-url: ${REVIEW_URL}
 kafka:
   bootstrap-servers: ${BOOTSTRAP_SERVERS}:9092
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [ "health","prometheus", "metrics" ]
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
