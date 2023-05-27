@@ -22,7 +22,50 @@ services:
     depends_on:
       - elasticsearch
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - movie
+  logstash:
+    image: logstash:8.5.3
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "50000:50000/tcp"
+      - "50000:50000/udp"
+      - "9600:9600"
+    volumes:
+      - ./elk/logstash/pipeline:/usr/share/logstash/config/pipeline
+    command: logstash -f /usr/share/logstash/config/pipeline/logstash.conf
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    networks:
+      - movie
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    volumes:
+      - ./elk/prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+      - movie
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_SERVER_DOMAIN: ${GRAFANA_DOMAIN}
     networks:
       - movie
   zookeeper:
@@ -61,4 +104,8 @@ volumes:
   elasticsearch-data:
     driver: local
   kibana-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
     driver: local
