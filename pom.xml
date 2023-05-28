@@ -207,7 +207,6 @@
         </executions>
         <configuration>
           <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-          <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
       </plugin>
       <plugin>
