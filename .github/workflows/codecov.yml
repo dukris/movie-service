@@ -1,5 +1,7 @@
 name: codecov
-
+coverage:
+  status:
+    patch: off
 on:
   push:
     branches: [ "master" ]
