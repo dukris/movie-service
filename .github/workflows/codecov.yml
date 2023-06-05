@@ -1,12 +1,12 @@
 name: codecov
-coverage:
-  status:
-    patch: off
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+coverage:
+  status:
+    patch: false
 jobs:
   codecov:
     runs-on: ubuntu-20.04
