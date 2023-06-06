@@ -14,7 +14,7 @@
   <name>movie</name>
   <description>Movie microservice</description>
   <properties>
-    <java.version>19</java.version>
+    <java.version>17</java.version>
     <lombok.version>1.18.28</lombok.version>
     <postgresql.version>42.5.4</postgresql.version>
     <r2dbc-postgresql.version>1.0.1.RELEASE</r2dbc-postgresql.version>
