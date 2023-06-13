@@ -2,6 +2,7 @@ package com.solvd.movie.service.impl;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
+import com.solvd.movie.model.fake.FkEsMovie;
 import com.solvd.movie.persistence.EsMovieRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +27,9 @@ public class EsMovieServiceTest {
 
     @Test
     public void verifiesRetrieveAllByCriteria() {
-        SearchCriteria criteria = ModelFactory.getEmptyCriteria();
+        SearchCriteria criteria = new SearchCriteria();
         Pageable pageable = PageRequest.of(0, 20);
-        EsMovie movie = ModelFactory.getEsMovie();
+        EsMovie movie = new FkEsMovie();
         Mockito.when(this.esMovieRepository.findAllByCriteria(
                 criteria,
                 pageable
@@ -45,7 +46,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void verifiesCreate() {
-        EsMovie movie = ModelFactory.getEsMovie();
+        EsMovie movie = new FkEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mono<EsMovie> createdMovie = this.esMovieService.create(movie);
@@ -57,7 +58,7 @@ public class EsMovieServiceTest {
 
     @Test
     public void verifiesUpdate() {
-        EsMovie movie = ModelFactory.getEsMovie();
+        EsMovie movie = new FkEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.esMovieRepository.findById(movie.getId()))

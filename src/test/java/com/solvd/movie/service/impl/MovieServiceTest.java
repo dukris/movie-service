@@ -4,6 +4,8 @@ import com.solvd.movie.kafka.producer.KafkaProducer;
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.criteria.SearchCriteria;
+import com.solvd.movie.model.fake.FkEsMovie;
+import com.solvd.movie.model.fake.FkMovie;
 import com.solvd.movie.service.EsMovieService;
 import com.solvd.movie.service.PgMovieService;
 import com.solvd.movie.web.dto.mapper.MovieMapper;
@@ -40,9 +42,9 @@ public class MovieServiceTest {
     @Test
     public void verifiesRetrieveAllByCriteria() {
         Pageable pageable = PageRequest.of(0, 20);
-        EsMovie esMovie = ModelFactory.getEsMovie();
-        Movie movie = ModelFactory.getMovie();
-        SearchCriteria criteria = ModelFactory.getEmptyCriteria();
+        EsMovie esMovie = new FkEsMovie();
+        Movie movie = new FkMovie();
+        SearchCriteria criteria = new SearchCriteria();
         Mockito.when(this.esMovieService.retrieveAllByCriteria(
                 criteria, pageable))
                 .thenReturn(Flux.just(esMovie));
@@ -57,7 +59,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifiesRetrieveById() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieService.retrieveById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> foundMovie = this.movieService.retrieveById(movie.getId());
@@ -81,7 +83,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifiesCreate() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieService.create(movie))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> createdMovie = this.movieService.create(movie);
@@ -93,7 +95,7 @@ public class MovieServiceTest {
 
     @Test
     public void verifiesUpdate() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieService.update(movie))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> updatedMovie = this.movieService.update(movie);

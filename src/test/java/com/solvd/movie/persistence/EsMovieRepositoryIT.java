@@ -2,9 +2,10 @@ package com.solvd.movie.persistence;
 
 import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
-import com.solvd.movie.service.impl.ModelFactory;
-import integration.ITCase;
+import com.solvd.movie.model.fake.FkEsMovie;
+import com.solvd.movie.model.fake.FkSearchCriteria;
 import integration.EsConfig;
+import integration.ITCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,8 +27,8 @@ public class EsMovieRepositoryIT extends ITCase {
 
     @Test
     public void verifiesFindAll() {
-        SearchCriteria criteria = ModelFactory.getEmptyCriteria();
-        EsMovie movie = ModelFactory.getEsMovie();
+        SearchCriteria criteria = new FkSearchCriteria();
+        EsMovie movie = new FkEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
@@ -44,8 +45,8 @@ public class EsMovieRepositoryIT extends ITCase {
 
     @Test
     public void verifiesFindByCriteria() {
-        SearchCriteria criteria = ModelFactory.getCriteria();
-        EsMovie movie = ModelFactory.getEsMovie();
+        SearchCriteria criteria = new FkSearchCriteria();
+        EsMovie movie = new FkEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)
@@ -62,7 +63,7 @@ public class EsMovieRepositoryIT extends ITCase {
 
     @Test
     public void verifiesSave() {
-        EsMovie movie = ModelFactory.getEsMovie();
+        EsMovie movie = new FkEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
                 .expectNext(movie)

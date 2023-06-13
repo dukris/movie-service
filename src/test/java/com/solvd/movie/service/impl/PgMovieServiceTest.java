@@ -2,6 +2,7 @@ package com.solvd.movie.service.impl;
 
 import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.exception.ResourceNotFoundException;
+import com.solvd.movie.model.fake.FkMovie;
 import com.solvd.movie.persistence.PgMovieRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifiesRetrieveByCorrectId() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> foundMovie = this.pgMovieService.retrieveById(
@@ -62,7 +63,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifiesCreate() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
         Mono<Movie> createdMovie = this.pgMovieService.create(movie);
@@ -74,7 +75,7 @@ public class PgMovieServiceTest {
 
     @Test
     public void verifiesUpdate() {
-        Movie movie = ModelFactory.getMovie();
+        Movie movie = new FkMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
         Mockito.when(this.pgMovieRepository.save(movie))
