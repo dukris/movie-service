@@ -1,0 +1,54 @@
+type Movie {
+    id: ID!
+    name: String!
+    year: Int!
+    country: String!
+    genre: String!
+    language: String!
+    description: String!
+    qualityFrom: Int!
+    qualityTo: Int!
+}
+
+type SearchCriteria {
+    name: String
+    yearFrom: Int
+    yearTo: Int
+    country: String
+    genres: [String]
+    language: String
+    quality: Int
+}
+
+input InputMovie {
+    id: ID
+    name: String!
+    year: Int!
+    country: String!
+    genre: String!
+    language: String!
+    description: String!
+    qualityFrom: Int!
+    qualityTo: Int!
+}
+
+input InputSearchCriteria {
+    name: String
+    yearFrom: Int
+    yearTo: Int
+    country: String
+    genres: [String]
+    language: String
+    quality: Int
+}
+
+type Query {
+    getAllByCriteria(criteria: InputSearchCriteria): [Movie]
+    getById(movieId: Int!): Movie
+}
+
+type Mutation {
+    create(movie: InputMovie!) : Movie
+    update(movieId: Int!, movie: InputMovie!) : Movie
+    delete(movieId: Int!): Movie
+}

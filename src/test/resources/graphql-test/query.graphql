@@ -1,0 +1,27 @@
+query {
+    getById(movieId: 1)
+    {
+        id
+        name
+        year
+        country
+        genre
+        language
+        description
+    }
+    getAllByCriteria(
+        criteria:
+        {
+            name: "Film",
+            yearFrom: 2021
+            yearTo: 2030
+        }) {
+        id
+        name
+        year
+        country
+        genre
+        language
+        description
+    }
+}

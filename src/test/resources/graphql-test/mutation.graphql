@@ -1,0 +1,43 @@
+mutation {
+    create(movie: {
+        name: "Film",
+        country: "Country",
+        qualityFrom: 360,
+        qualityTo: 1024,
+        genre: "Genre",
+        description: "Description",
+        year: 2023,
+        language: "English"
+    }){
+        id
+        name
+        year
+        country
+        genre
+        language
+        description
+    }
+    update(movieId: 1,
+        movie: {
+            name: "Film",
+            country: "Country",
+            qualityFrom: 360,
+            qualityTo: 1024,
+            genre: "Genre",
+            description: "Description",
+            year: 2023,
+            language: "English"
+        }){
+        id
+        name
+        year
+        country
+        genre
+        language
+        description
+    }
+    delete(movieId: 1)
+    {
+        id
+    }
+}

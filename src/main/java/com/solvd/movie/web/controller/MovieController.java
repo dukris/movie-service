@@ -3,14 +3,13 @@ package com.solvd.movie.web.controller;
 import com.solvd.movie.model.Movie;
 import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.service.MovieService;
-import com.solvd.movie.web.dto.MovieDto;
 import com.solvd.movie.web.dto.ReviewDto;
-import com.solvd.movie.web.dto.criteria.SearchCriteriaDto;
-import com.solvd.movie.web.dto.mapper.MovieMapper;
-import com.solvd.movie.web.dto.mapper.SearchCriteriaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,28 +32,25 @@ public class MovieController {
 
     private final MovieService movieService;
     private final WebClient.Builder webClientBuilder;
-    private final SearchCriteriaMapper criteriaMapper;
-    private final MovieMapper movieMapper;
 
     @Value("${services.review-url}")
     private String reviewUrl;
 
-    @GetMapping()
-    public Flux<MovieDto> getAllByCriteria(
-            final SearchCriteriaDto criteriaDto,
-            final Pageable pageable) {
-        SearchCriteria criteria = this.criteriaMapper.toEntity(criteriaDto);
-        Flux<Movie> movies = this.movieService.retrieveAllByCriteria(
+    @GetMapping
+    @QueryMapping
+    public Flux<Movie> getAllByCriteria(
+            @Argument final SearchCriteria criteria) {
+        return this.movieService.retrieveAllByCriteria(
                 criteria,
-                pageable
+                PageRequest.of(0, 20)
         );
-        return movies.map(this.movieMapper::toDto);
     }
 
     @GetMapping("/{movieId}")
-    public Mono<MovieDto> getById(@PathVariable final Long movieId) {
-        Mono<Movie> movie = this.movieService.retrieveById(movieId);
-        return movie.map(this.movieMapper::toDto);
+    @QueryMapping
+    public Mono<Movie> getById(
+            @PathVariable @Argument final Long movieId) {
+        return this.movieService.retrieveById(movieId);
     }
 
     @GetMapping("/exists/{movieId}")
@@ -71,28 +67,27 @@ public class MovieController {
                 .bodyToFlux(ReviewDto.class);
     }
 
-    @PostMapping()
+    @PostMapping
+    @MutationMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<MovieDto> create(
-            @Validated @RequestBody final MovieDto movieDto) {
-        Movie movie = this.movieMapper.toEntity(movieDto);
-        Mono<Movie> movieMono = this.movieService.create(movie);
-        return movieMono.map(this.movieMapper::toDto);
+    public Mono<Movie> create(
+            @Validated @RequestBody @Argument final Movie movie) {
+        return this.movieService.create(movie);
     }
 
     @PutMapping("/{movieId}")
-    public Mono<MovieDto> update(@PathVariable final Long movieId,
-                                 @Validated
-                                 @RequestBody final MovieDto movieDto) {
-        Movie movie = this.movieMapper.toEntity(movieDto);
+    @MutationMapping
+    public Mono<Movie> update(@PathVariable @Argument final Long movieId,
+                                 @Validated @Argument
+                                 @RequestBody final Movie movie) {
         movie.setId(movieId);
-        Mono<Movie> movieMono = this.movieService.update(movie);
-        return movieMono.map(this.movieMapper::toDto);
+        return this.movieService.update(movie);
     }
 
     @DeleteMapping("/{movieId}")
+    @MutationMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> delete(@PathVariable final Long movieId) {
+    public Mono<Void> delete(@PathVariable @Argument final Long movieId) {
         return this.movieService.delete(movieId);
     }
 

@@ -20,6 +20,9 @@ spring:
   elasticsearch:
     rest:
       uris: ${ELASTIC_SERVER}:9200
+  graphql:
+    graphiql:
+      enabled: true
 services:
   review-url: ${REVIEW_URL}
 kafka:
