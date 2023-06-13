@@ -17,5 +17,6 @@ import org.springframework.data.elasticsearch.repository.config.EnableReactiveEl
 })
 @ComponentScan(basePackages = "com.solvd.movie.persistence")
 @EnableReactiveElasticsearchRepositories(basePackages = "com.solvd.movie.persistence")
-public class TestConfig {
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
+public class EsConfig {
 }

@@ -32,7 +32,7 @@ public class EventHandlerTest {
     private EventHandlerImpl eventHandler;
 
     @Test
-    public void verifyCreateMovieAction() {
+    public void verifiesCreateMovieAction() {
         Event event = new Event();
         event.setAction(Action.CREATE_MOVIE);
         event.setMovie(ModelFactory.getEsMovie());
@@ -49,7 +49,7 @@ public class EventHandlerTest {
     }
 
     @Test
-    public void verifyDeleteMovieAction() {
+    public void verifiesDeleteMovieAction() {
         Event event = new Event();
         event.setAction(Action.DELETE_MOVIE);
         event.setMovie(ModelFactory.getEsMovie());
@@ -66,7 +66,7 @@ public class EventHandlerTest {
     }
 
     @Test
-    public void verifyUpdateMovieAction() {
+    public void verifiesUpdateMovieAction() {
         Event event = new Event();
         event.setAction(Action.UPDATE_MOVIE);
         event.setMovie(ModelFactory.getEsMovie());

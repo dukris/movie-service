@@ -34,6 +34,7 @@
     <org.testcontainers.version>1.18.1</org.testcontainers.version>
     <failsafe.version>3.1.0</failsafe.version>
     <graphql.version>15.0.0</graphql.version>
+    <jtcop.version>0.1.14</jtcop.version>
   </properties>
   <dependencies>
     <dependency>
@@ -258,6 +259,18 @@
                 </rule>
               </rules>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.volodya-lombrozo</groupId>
+        <artifactId>jtcop-maven-plugin</artifactId>
+        <version>${jtcop.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

@@ -24,7 +24,7 @@ public class PgMovieServiceTest {
     private PgMovieServiceImpl pgMovieService;
 
     @Test
-    public void verifyRetrieveByCorrectId() {
+    public void verifiesRetrieveByCorrectId() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
@@ -38,7 +38,7 @@ public class PgMovieServiceTest {
     }
 
     @Test
-    public void verifyRetrieveByIncorrectId() {
+    public void verifiesRetrieveByIncorrectId() {
         Long movieId = 1L;
         Mockito.when(this.pgMovieRepository.findById(movieId))
                 .thenReturn(Mono.justOrEmpty(Optional.empty()));
@@ -49,7 +49,7 @@ public class PgMovieServiceTest {
     }
 
     @Test
-    public void verifyIsExist() {
+    public void verifiesIsExist() {
         Long movieId = 1L;
         Mockito.when(this.pgMovieRepository.existsById(movieId))
                 .thenReturn(Mono.just(true));
@@ -61,7 +61,7 @@ public class PgMovieServiceTest {
     }
 
     @Test
-    public void verifyCreate() {
+    public void verifiesCreate() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
@@ -73,7 +73,7 @@ public class PgMovieServiceTest {
     }
 
     @Test
-    public void verifyUpdate() {
+    public void verifiesUpdate() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieRepository.findById(movie.getId()))
                 .thenReturn(Mono.just(movie));
@@ -87,7 +87,7 @@ public class PgMovieServiceTest {
     }
 
     @Test
-    public void verifyDelete() {
+    public void verifiesDelete() {
         Long movieId = 1L;
         Mockito.when(this.pgMovieRepository.deleteById(movieId))
                 .thenReturn(Mono.empty());

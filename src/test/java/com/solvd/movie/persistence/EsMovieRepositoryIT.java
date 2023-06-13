@@ -4,7 +4,7 @@ import com.solvd.movie.model.EsMovie;
 import com.solvd.movie.model.criteria.SearchCriteria;
 import com.solvd.movie.service.impl.ModelFactory;
 import integration.ITCase;
-import integration.TestConfig;
+import integration.EsConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,15 +16,16 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @SpringBootTest
-@ContextConfiguration(classes = {TestConfig.class})
+@ContextConfiguration(classes = {EsConfig.class})
 @ActiveProfiles("test")
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class EsMovieRepositoryIT extends ITCase {
 
     @Autowired
     private EsMovieRepository movieRepository;
 
     @Test
-    public void verifyFindAll() {
+    public void verifiesFindAll() {
         SearchCriteria criteria = ModelFactory.getEmptyCriteria();
         EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
@@ -42,7 +43,7 @@ public class EsMovieRepositoryIT extends ITCase {
     }
 
     @Test
-    public void verifyFindByCriteria() {
+    public void verifiesFindByCriteria() {
         SearchCriteria criteria = ModelFactory.getCriteria();
         EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
@@ -60,7 +61,7 @@ public class EsMovieRepositoryIT extends ITCase {
     }
 
     @Test
-    public void verifySave() {
+    public void verifiesSave() {
         EsMovie movie = ModelFactory.getEsMovie();
         Mono<EsMovie> createdMovie = this.movieRepository.save(movie);
         StepVerifier.create(createdMovie)
@@ -70,7 +71,7 @@ public class EsMovieRepositoryIT extends ITCase {
     }
 
     @Test
-    public void verifyDelete() {
+    public void verifiesDelete() {
         Long movieId = 1L;
         Mono<Void> result = this.movieRepository.deleteById(movieId);
         StepVerifier.create(result)

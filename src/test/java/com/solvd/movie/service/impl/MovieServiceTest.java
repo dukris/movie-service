@@ -38,7 +38,7 @@ public class MovieServiceTest {
     private MovieServiceImpl movieService;
 
     @Test
-    public void verifyRetrieveAllByCriteria() {
+    public void verifiesRetrieveAllByCriteria() {
         Pageable pageable = PageRequest.of(0, 20);
         EsMovie esMovie = ModelFactory.getEsMovie();
         Movie movie = ModelFactory.getMovie();
@@ -56,7 +56,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void verifyRetrieveById() {
+    public void verifiesRetrieveById() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieService.retrieveById(movie.getId()))
                 .thenReturn(Mono.just(movie));
@@ -68,7 +68,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void verifyIsExist() {
+    public void verifiesIsExist() {
         Long movieId = 1L;
         Mockito.when(this.pgMovieService.isExist(movieId))
                 .thenReturn(Mono.just(true));
@@ -80,7 +80,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void verifyCreate() {
+    public void verifiesCreate() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieService.create(movie))
                 .thenReturn(Mono.just(movie));
@@ -92,7 +92,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void verifyUpdate() {
+    public void verifiesUpdate() {
         Movie movie = ModelFactory.getMovie();
         Mockito.when(this.pgMovieService.update(movie))
                 .thenReturn(Mono.just(movie));
@@ -104,7 +104,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void verifyDelete() {
+    public void verifiesDelete() {
         Long movieId = 1L;
         Mockito.when(this.pgMovieService.delete(movieId))
                 .thenReturn(Mono.empty());

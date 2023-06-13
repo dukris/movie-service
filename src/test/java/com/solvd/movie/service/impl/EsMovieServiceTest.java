@@ -25,7 +25,7 @@ public class EsMovieServiceTest {
     private EsMovieServiceImpl esMovieService;
 
     @Test
-    public void verifyRetrieveAllByCriteria() {
+    public void verifiesRetrieveAllByCriteria() {
         SearchCriteria criteria = ModelFactory.getEmptyCriteria();
         Pageable pageable = PageRequest.of(0, 20);
         EsMovie movie = ModelFactory.getEsMovie();
@@ -44,7 +44,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void verifyCreate() {
+    public void verifiesCreate() {
         EsMovie movie = ModelFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
@@ -56,7 +56,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void verifyUpdate() {
+    public void verifiesUpdate() {
         EsMovie movie = ModelFactory.getEsMovie();
         Mockito.when(this.esMovieRepository.save(movie))
                 .thenReturn(Mono.just(movie));
@@ -70,7 +70,7 @@ public class EsMovieServiceTest {
     }
 
     @Test
-    public void verifyDelete() {
+    public void verifiesDelete() {
         Long movieId = 1L;
         Mockito.when(this.esMovieRepository.deleteById(movieId))
                 .thenReturn(Mono.empty());

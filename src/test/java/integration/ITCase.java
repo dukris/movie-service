@@ -8,6 +8,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 @SpringBootTest
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class ITCase {
 
     private static final ElasticsearchContainer container = new EsContainer().init();

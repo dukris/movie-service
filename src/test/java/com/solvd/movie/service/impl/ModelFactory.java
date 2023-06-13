@@ -7,6 +7,7 @@ import com.solvd.movie.model.criteria.SearchCriteria;
 
 import java.util.List;
 
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public final class ModelFactory {
 
     public static EsMovie getEsMovie() {

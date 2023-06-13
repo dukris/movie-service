@@ -3,6 +3,7 @@ package integration;
 
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class EsContainer extends ElasticsearchContainer {
 
     public EsContainer() {

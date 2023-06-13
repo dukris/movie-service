@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 @TestConfiguration
 @EnableAutoConfiguration
 @Import(WebConfig.class)
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class GraphqlConfig {
 
     @Bean

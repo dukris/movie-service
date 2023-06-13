@@ -12,13 +12,14 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 
 @GraphQlTest(MovieController.class)
 @Import(GraphqlConfig.class)
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class MovieMutationTest {
 
     @Autowired
     private GraphQlTester tester;
 
     @Test
-    public void verifyCreate() {
+    public void verifiesCreate() {
         this.tester.documentName("mutation")
                 .execute()
                 .path("data.create")
@@ -33,7 +34,7 @@ public class MovieMutationTest {
     }
 
     @Test
-    public void verifyUpdate() {
+    public void verifiesUpdate() {
         this.tester.documentName("mutation")
                 .execute()
                 .path("data.update")
@@ -48,7 +49,7 @@ public class MovieMutationTest {
     }
 
     @Test
-    public void verifyDelete() {
+    public void verifiesDelete() {
         this.tester.documentName("mutation")
                 .execute()
                 .path("data.delete")

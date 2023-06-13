@@ -12,13 +12,14 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 
 @GraphQlTest(MovieController.class)
 @Import(GraphqlConfig.class)
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
 public class MovieQueryTest {
 
     @Autowired
     private GraphQlTester tester;
 
     @Test
-    public void verifyGetAllByCriteria() {
+    public void verifiesGetAllByCriteria() {
         this.tester.documentName("query")
                 .execute()
                 .path("getAllByCriteria")
@@ -31,7 +32,7 @@ public class MovieQueryTest {
     }
 
     @Test
-    public void verifyGetById() {
+    public void verifiesGetById() {
         this.tester.documentName("query")
                 .execute()
                 .path("getById")
